@@ -1,0 +1,17 @@
+Alter table retribuzioni add constraint verifica CHECK ( ( ( netto= lordo-imposte) and (verifica= 'true'))
+                                                        or ((netto <> lordo-imposte) and (verifica = 'false') ) )
+
+Alter table retribuzioni add constraint verifica1 CHECK (( not( netto= lordo - imposte ) ) or ( verifica = 'true' ))
+
+Alter table retribuzioni add constraint verifica2 CHECK (( not( verifica = 'true') ) or ( netto= lordo - imposte ))
+
+create table retribuzioni1 (
+  id numeric not null ,
+  lordo numeric not null,
+  Imposte numeric not null,
+  netto numeric not null,
+  verifica character (20));
+
+insert into retribuzioni values ( 1, 3000, 800, 2200, 'true');
+insert into retribuzioni values ( 2, 4000, 1000, 3000, 'true');
+insert into retribuzioni values ( 3, 3000, 1000,2200, 'true');

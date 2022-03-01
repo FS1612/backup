@@ -1,0 +1,336 @@
+DOMANDE 1-3
+
+Considerare una base di dati sul seguente schema
+
+CREATE TABLE Ordini (
+    Codice  integer NOT NULL PRIMARY KEY,
+    Cliente text NOT NULL,
+    Data date NOT NULL );
+CREATE TABLE Prodotti (
+    ID integer NOT NULL PRIMARY KEY,
+    Descrizione text,
+    Prezzo integer NOT NULL);
+CREATE TABLE ElementiOrdini (
+    Ordine  integer NOT NULL REFERENCES Ordini,
+    Riga integer NOT NULL,
+    Prodotto integer NOT NULL REFERENCES Prodotti,
+    Quantità integer NOT NULL,
+    PRIMARY KEY (Ordine,Riga));
+
+
+Supponendo che la cardinalità delle tre relazioni sia rispettivamente O, P, E (con E sempre maggiore sia di O sia di P), qual è la cardinalità (minima e massima) del risultato della seguente interrogazione?
+
+1a1
+SELECT codice as ordine, ID as Prodotti 
+FROM Ordini, Prodotti  
+
+minimo e massimo O x P
+
+1a2
+SELECT codice as ordine, ID as Prodotti 
+FROM Ordini, Prodotti 
+WHERE Data > '2020-11-01' 
+
+minimo 0 massimo O x P
+
+1b1
+SELECT codice as ordine, ID as Prodotti  
+FROM Ordini JOIN ElementiOrdini on Codice=Ordine  
+            JOIN Prodotti ON Prodotto=ID 
+WHERE Quantità > 1 
+
+minimo 0 massimo E
+
+1b2
+SELECT codice as ordine, ID as Prodotti  
+FROM Ordini JOIN ElementiOrdini on Codice=Ordine  
+            JOIN Prodotti ON Prodotto=ID 
+
+minimo e massimo E
+
+1c1
+SELECT Ordine, count(Prodotto) 
+FROM ElementiOrdini 
+GROUP BY Ordine 
+
+massimo O (minimo può essere 0 o O, a seconda dell'interpretazione)
+
+1c2
+SELECT Prodotto, count(Ordine) 
+FROM ElementiOrdini 
+GROUP BY Prodotto
+
+minimo 1 massimo P 
+
+1c3
+SELECT Cliente, count(*) 
+FROM Ordini 
+GROUP BY Cliente
+
+minimo 1 massimo O 
+
+1c4
+SELECT Descrizione, count(*) 
+FROM Prodotti 
+GROUP BY Descrizione
+
+minimo 1 massimo P 
+
+DOMANDE 4-8
+Con riferimento a questa base di dati (sempre la stessa)
+
+2a1
+formulare in algebra relazionale l'interrogazione che trova 
+i prodotti che non sono ordinati in nessun ordine.
+Mostrare ID, prezzo e descrizione di tali prodotti.
+
+Prodotti - Proj ID, Descrizione, Prezzo (Prodotti Join ID= Prodotto ElementiOrdini)
+
+2a2
+formulare in algebra relazionale l'interrogazione che trova 
+gli ordini che non hanno prodotti ordinati (cioè non compaiono
+nella relazione ElementiOrdini). Si noti che di norma non 
+dovrebbero esistere, ma non c'è nessun vincolo che lo impedisca.
+Mostrare codice, cliente e data di tali ordini. 
+
+2b1
+formulare in SQL l'interrogazione che trova 
+gli ordini che non hanno prodotti ordinati (cioè non compaiono
+nella relazione ElementiOrdini). Si noti che di norma non 
+dovrebbero esistere, ma non c'è nessun vincolo che lo impedisca.
+Mostrare codice, cliente e data di tali ordini. 
+
+SELECT Codice, Cliente, Data
+FROM Ordini
+EXCEPT 
+SELECT Codice, Cliente, Data
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+
+2b2
+formulare in SQL l'interrogazione che trova 
+i prodotti che non sono ordinati in nessun ordine
+Mostrare ID, prezzo e descrizione di tali prodotti.
+
+SELECT ID, Prezzo, Descrizione
+FROM Prodotti
+EXCEPT 
+SELECT ID, Prezzo, Descrizione
+FROM Prodotti JOIN ElementiOrdini ON ID = Prodotto
+
+2c1
+formulare in SQL l'interrogazione che trova 
+i prodotti che sono stati ordinati dal cliente 'Rossi'
+Mostrare ID, prezzo e descrizione di tali prodotti.
+
+SELECT DISTINCT ID, Prezzo, Descrizione
+FROM Prodotti JOIN ElementiOrdini ON ID = Prodotto
+              JOIN Ordini ON Codice = Ordine
+WHERE Cliente = 'Rossi' 
+
+2c2
+formulare in SQL l'interrogazione che trova 
+i prodotti che sono stati ordinati dal cliente 'Bianchi'
+Mostrare ID, prezzo e descrizione di tali prodotti.
+
+SELECT DISTINCT ID, Prezzo, Descrizione
+FROM Prodotti JOIN ElementiOrdini ON ID = Prodotto
+              JOIN Ordini ON Codice = Ordine
+WHERE Cliente = 'Bianchi' 
+
+2c3
+formulare in SQL l'interrogazione che trova 
+i prodotti che sono stati ordinati dal cliente 'Bruni'
+Mostrare ID, prezzo e descrizione di tali prodotti.
+
+SELECT DISTINCT ID, Prezzo, Descrizione
+FROM Prodotti JOIN ElementiOrdini ON ID = Prodotto
+              JOIN Ordini ON Codice = Ordine
+WHERE Cliente = 'Bruni' 
+
+2c4
+formulare in SQL l'interrogazione che trova 
+i prodotti che sono stati ordinati dal cliente 'Bruni'
+Mostrare ID, prezzo e descrizione di tali prodotti.
+
+SELECT DISTINCT ID, Prezzo, Descrizione
+FROM Prodotti JOIN ElementiOrdini ON ID = Prodotto
+              JOIN Ordini ON Codice = Ordine
+WHERE Cliente = 'Bruni' 
+
+2d1
+formulare in SQL l'interrogazione che trova, per ogni ordine,
+il numero di prodotti diversi ordinati. 
+Mostrare codice, cliente e data dell'ordine e numero di prodotti.
+
+SELECT Codice, Cliente, Data, count(DISTINCT Prodotto) AS NumeroProdotti
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+GROUP BY Codice, Cliente, Data
+
+2d2
+formulare in SQL l'interrogazione che trova, per ogni cliente,
+il numero di prodotti diversi ordinati. 
+Mostrare cliente e numero di prodotti.
+
+SELECT Cliente, count(DISTINCT Prodotto) AS NumeroProdotti
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+GROUP BY  Cliente 
+
+
+2d3
+formulare in SQL l'interrogazione che, per ogni ordine, mostra 
+l'importo complessivo (che è la somma dei prezzi dei 
+prodotti ordinati, ciascuno moltiplicato per la relativa quantità). Mostrare codice dell'ordine e importo complessivo.
+
+SELECT Codice, SUM( Quantità*Prezzo) AS Importo
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+            JOIN Prodotti ON Prodotto = ID
+GROUP BY Codice
+
+volendo inserire anche gli ordini senza prodotti
+
+SELECT Codice, SUM( Quantità*Prezzo) AS ImportoTotale
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+            JOIN Prodotti ON Prodotto = ID
+GROUP BY Codice
+UNION
+SELECT Codice, 0 AS ImportoTotale
+FROM Ordini 
+WHERE Codice NOT IN (SELECT Ordine FROM ElementiOrdini)
+
+2d4
+formulare in SQL l'interrogazione che, per ogni ordine, mostra il numero totale di pezzi ordinati (che è la somma delle quantità ordinate per i vari prodotti). Mostrare codice dell'ordine e numero totale di pezzi.
+
+SELECT Codice, SUM(Quantità) AS QuantitàTotale
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+GROUP BY Codice
+
+volendo inserire anche gli ordini senza prodotti 
+(ma non lo si riteneva richiesto)
+
+SELECT Codice, SUM(Quantità) AS QuantitàTotale
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+GROUP BY Codice
+UNION 
+SELECT Codice, 0 AS QuantitàTotale
+FROM Ordini 
+WHERE Codice NOT IN (SELECT Ordine FROM ElementiOrdini)
+
+oppure
+SELECT Codice, COALESCE(SUM(Quantità),0) AS QuantitàTotale
+FROM Ordini LEFT JOIN ElementiOrdini ON Codice = Ordine
+GROUP BY Codice
+
+2e1
+formulare in SQL l'interrogazione che trova l'ordine che
+che ha il più alto numero di prodotti diversi ordinati.
+Mostrare il codice di tale ordine e il relativo numero di prodotti. Utilizzare eventualmente come vista l'interrogazione definita nella domanda precedente (basta darle un nome, senza ripetere la definizione).
+
+CREATE VIEW ContaProdottiPerOrdine AS 
+SELECT Codice, Cliente, Data, count(DISTINCT Prodotto) AS NumeroProdotti
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+GROUP BY Codice, Cliente, Data;
+SELECT Codice, NumeroProdotti
+FROM ContaProdottiPerOrdine
+WHERE NumeroProdotti = 
+    (SELECT MAX (NumeroProdotti) FROM ContaprodottiPerOrdine)
+
+
+2e2
+formulare in SQL l'interrogazione che trova il cliente che ordinato il più alto numero di prodotti diversi. Mostrare il cliente e il numero di prodotti. Utilizzare eventualmente come vista l'interrogazione definita nella domanda precedente (basta darle un nome, senza ripetere la definizione).
+
+CREATE VIEW ContaProdottiPerCliente AS
+SELECT Cliente, count(DISTINCT Prodotto) AS NumeroProdotti
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+GROUP BY  Cliente;
+SELECT Cliente, NumeroProdotti
+FROM ContaProdottiPerCliente
+WHERE NumeroProdotti = 
+    (SELECT MAX (NumeroProdotti) FROM ContaProdottiPerCliente)
+
+
+2e3
+formulare in SQL l'interrogazione che trova l'ordine che ha l'importo complessivo massimo. Mostrare il codice di tale ordine e l'importo complessivo. Utilizzare eventualmente come vista l'interrogazione definita nella domanda precedente (basta darle un nome, senza ripetere la definizione).
+
+CREATE VIEW SommaImporti AS
+SELECT Codice, SUM( Quantità*Prezzo) AS ImportoTotale
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+            JOIN Prodotti ON Prodotto = ID
+GROUP BY Codice;
+SELECT Codice, ImportoTotale
+FROM ContaProdottiPerCliente
+WHERE ImportoTotale = 
+    (SELECT MAX (NumeroProdotti) FROM ContaProdottiPerCliente)
+
+2e4
+formulare in SQL l'interrogazione che trova l'ordine che ha il massimo numero di pezzi ordinati complessivamente. Mostrare il codice di tale ordine e il numero totale di pezzi ordinati. Utilizzare eventualmente come vista l'interrogazione definita nella domanda precedente (basta darle un nome, senza ripetere la definizione).
+
+CREATE VIEW SommaImportiPerOrdine AS
+SELECT Codice, SUM( Quantità*Prezzo) AS ImportoTotale
+FROM Ordini JOIN ElementiOrdini ON Codice = Ordine
+            JOIN Prodotti ON Prodotto = ID
+GROUP BY Codice;
+SELECT Codice, ImportoTotale
+FROM SommaImportiPerOrdine
+WHERE ImportoTotale = 
+    (SELECT MAX (ImportoTotale) FROM SommaImportiPerOrdine)
+
+DOMANDA 9
+(una sola, le altre erano molto simili)
+Considerare una relazione
+Stipendi(Matricola,StipLordo,Tasse,Netto,Verifica)
+e definire su di essa
+1. un vincolo che imponga che, se il valore di Verifica è "OK", allora Netto è uguale alla differenza fra
+StipLordo e Tasse (si noti che non si vuole invece imporre nessuna condizione se il valore di Verifica è
+diverso da "OK").
+
+NOT (Verifica='OK') OR (Netto=StipLordo-Tasse)
+
+2. un vincolo che imponga che il valore di Verifica è "OK" se e solo se Netto è uguale alla differenza fra StipLordo e Tasse.
+
+((Verifica=<>'OK') AND (Netto<>StipLordo-Tasse))
+
+
+
+
+=====================================
+Script per le prime domande
+
+CREATE TABLE Ordini (
+    Codice  integer NOT NULL PRIMARY KEY,
+    Cliente text NOT NULL,
+    Data date NOT NULL );
+CREATE TABLE Prodotti (
+    ID integer NOT NULL PRIMARY KEY,
+    Descrizione text,
+    Prezzo integer NOT NULL);
+CREATE TABLE ElementiOrdini (
+    Ordine  integer NOT NULL REFERENCES Ordini,
+    Riga integer NOT NULL,
+    Prodotto integer NOT NULL REFERENCES Prodotti,
+    Quantità integer NOT NULL,
+    PRIMARY KEY (Ordine,Riga));
+
+
+INSERT INTO Ordini VALUES (100101,'Rossi','2020-10-01');
+INSERT INTO Ordini VALUES (100102,'Rossi','2020-11-05');
+INSERT INTO Ordini VALUES (100103,'Neri','2020-10-04');
+INSERT INTO Ordini VALUES (100104,'Bruni','2020-10-02');
+INSERT INTO Ordini VALUES (100105,'Rossi','2020-10-03');
+INSERT INTO Ordini VALUES (100106,'Neri','2020-10-12');
+
+INSERT INTO Prodotti VALUES (101,'XXX',1000);
+INSERT INTO Prodotti VALUES (102,'YYY',2000);
+INSERT INTO Prodotti VALUES (103,'ZZZ',1500);
+INSERT INTO Prodotti VALUES (104,'XXX',1200);
+INSERT INTO Prodotti VALUES (105,'XXX',2000);
+INSERT INTO Prodotti VALUES (106,'XXX',1200);
+
+INSERT INTO ElementiOrdini VALUES (100101, 1, 101, 3);
+INSERT INTO ElementiOrdini VALUES (100102, 1, 101, 1);
+INSERT INTO ElementiOrdini VALUES (100102, 2, 103, 3);
+INSERT INTO ElementiOrdini VALUES (100103, 1, 101, 4);
+INSERT INTO ElementiOrdini VALUES (100103, 2, 101, 2);
+INSERT INTO ElementiOrdini VALUES (100103, 3, 105, 1);
+INSERT INTO ElementiOrdini VALUES (100104, 1, 104, 1);
+INSERT INTO ElementiOrdini VALUES (100105, 1, 103, 2);
+INSERT INTO ElementiOrdini VALUES (100105, 2, 105, 1);
