@@ -1,0 +1,57 @@
+version 2.01.00.00 2015-07-013
+  PNP2.1
+version 2.00.11.00 2015-07-013
+  Change PID 1077 1078 1079 107A 1082 1083 1073 1074 from SCSI switch to EP0 switch.
+version 2.00.10.00 2015-06-08
+  Change PID 1073 1074 from EP0 switch to SCSI switch.
+version 2.00.09.00 2015-03-23
+  Change PID 1077 1078 1079 107A 1082 1083 1054 from EP0 switch to SCSI switch.
+version 2.00.08.00 2015-03-10
+  fix the readback bug for 9008
+  fix the bug for load ctrl driver in X64
+  fix hte bug load driver for 9006
+version 2.00.07.00 2015-01-23
+  Add new PID_1082 PID_1083 for ctrl swith driver.
+  Add PID_1051 PID_1053 PID_1054 for ctrl swith driver
+version 2.00.06.00 2015-01-15
+  Add PID_1077  PID_107B for adb
+  Add PID_107B  PID_107C for hdb
+  Add new PID_1080 PID_1081 for Telecom test in rndis.
+version 2.00.05.00 2014-12-05
+  Add PID_1073 PID_1074 PID_1075 PID_1076 PID_1079 and PID_107A for ctrl swith driver.
+version 2.00.04.00 2014-11-28
+  Add new PID_105C for hdb
+version 2.00.03.00 2014-11-19
+  Add new PID_107A for hdb
+version 2.00.01.00 2014-09-09
+	first all-in-one version for handset productLine
+version 1.03.01.00 2012-08-09
+  modified that The incoming parameters in quotes, to prevent third-party application calls failure because of there are spaces in the path which led to decompression 
+version 1.03.00.00 2012-04-20
+  add ndis driver
+  add new PID_3601、3611、3612、3622 for mediapad
+  modified that not delete mtp device in win7/vista 
+version 1.02.02.00 2012-02-17
+  modified that compatible win7/Vista not pop-up OS Program Compatibility Assistant(PCA)
+  Add Display setup packets
+version 1.02.01.00 2012-01-14
+  remove that PC Driver not support new optimied PID function
+version 1.02.00.00 2012-01-06
+  Add new PID_360A for mediapad'ICS
+  Add new PID_1039、1051、1052、1054、1055、1056 for TI SP
+  modified that devsetup32/64.exe not send SCSI to HID device
+version 1.01.03.00 2012-01-02
+  modified init Version parameter that cause driver not be installed when getparas(para rules's " /drvinsted")
+  Fix the issue that the installation take mach time in vista/Win7
+  add HiSuit requirements that same drivers not be installed if the PC already installed one(send parameter: /drvinsted)
+version 1.01.02.00 2011-12-07
+  modified that wait time from 10s to 1s after send the rewind order
+  modified the rewind same to the fake driver sys that send 0x11、0x06
+  modified the ＾Handset WinDriver.exe￣ that let lower ＾Handset WinDriver.exe￣ version can not be installed to the pc which already installed high version driver
+version 1.01.01.00
+  Fixed the bug that can not remove some inf files
+  Fixed the bug when dial-up modem cause device reset in win7/Vista 64 system
+  Fixed the bug that have two adb interface in New hardware installation guide
+  Fixed the bug that Driver is installed to click the install program pop-up, driver is installed unloading boxes, multiple clicks can eject a plurality of prompt box, no conflict checking
+version 1.01.00.00
+  Initial version
