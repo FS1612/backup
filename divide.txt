@@ -1,0 +1,41 @@
+#include <stdio.h>
+/*Specifiche:
+ * input: 1 sequenza di numeri 
+ * pre-condizioni: l è la lunghezza dell' array di numeri
+ * output: un intero divide
+ * post-condizioni: divide ha valore 1 se s è prefisso di t, alrimenti 0
+ * problema: verifica */
+ int divide(int sequenza[],int l);
+ int main()//*funzione principale
+ {
+	 printf("ciao sono un programma che verifica se in un' array esiste una coppia in cui un numero divide l'altro\n");
+	 int lunghezza;//* variabile che contiene la lunghezza
+	 printf("quanti numeri vuoi nella sequenza?\t");
+	 scanf("%d",&lunghezza);
+	 int interi[lunghezza];//*dichiarazione array
+	 for(int i=0; i<lunghezza; i++){
+		 printf("inserisci un numero\t");
+		 scanf("%d",&interi[i]);
+	 }
+	 //* istruzioni di stampa
+	 if (divide(interi, lunghezza)==1)
+		 printf("nella sequenza ci sta almeno una coppia di divisori\n");
+		 else
+			 printf("non sono presenti coppie di divisori");
+ }
+ int divide(int sequenza[], int l){
+	 int i=0;
+	 int j;
+	 int div=0;
+	 while (i<l-1&&!div){
+		 j=i+1;
+		 {while(j<l&&!div)
+			 if (sequenza[j]%sequenza[i]==0||sequenza[i]%sequenza[j]==0)
+			 div=1;
+			 else 
+		 j++;}
+		 i++;
+		 }
+
+	 return div;
+ }

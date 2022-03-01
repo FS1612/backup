@@ -1,0 +1,44 @@
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+int consecutive(char*stringa);
+int main(){
+	int totalevolte;
+	printf("Ciao, sono un programma inutile^2\n "); 
+	char stringa[50];
+	printf("Introduci una bella stringa: ");
+	fgets(stringa, 50, stdin);
+	totalevolte =consecutive(stringa);
+	printf("totale volte : %d\n", totalevolte);
+
+}
+int consecutive(char*stringa){
+	int i;
+	int primalettera;
+	int letteramassima;
+	int volteiniziali;
+	int voltetotali;
+	int lunghezza;
+	primalettera=stringa[0];
+	letteramassima=stringa[0];
+	volteiniziali=1;
+	voltetotali=1;
+	lunghezza=strlen(stringa)-1;
+	i=1;
+while(i<lunghezza){
+	if(stringa[i]==primalettera)
+		volteiniziali++;
+		if(voltetotali<volteiniziali){
+				voltetotali=volteiniziali;
+				letteramassima=primalettera;
+			}
+		else
+			if(stringa[i]!=primalettera){
+				primalettera=stringa[i];
+				volteiniziali=1;
+			}
+			i++;
+		}
+printf("la lettera con piu ripetizioni %c %c", 138, letteramassima);
+return voltetotali;
+}

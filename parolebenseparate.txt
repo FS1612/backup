@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+void parolebenseparate(char* stringa);
+int main(){
+	printf(" sono un programma che prende una stringa in input la modifica ritornando solo i caratteri minuscoli della stessa\n");
+	char stringa[50];
+	printf("iserisci una stringa\n");
+	fgets(stringa,50,stdin);
+	stringa[strlen(stringa)-1]='\0';
+	parolebenseparate(stringa);
+	printf("la stringa dopo la modifica %c %s\n",138, stringa);
+}
+void parolebenseparate(char*stringa){
+int i;
+int j=0;
+	for(i=0;stringa[i]!='\0';i++){
+		if(stringa[i]>='a'&& stringa[i]<='z'){
+			stringa[j]=stringa[i];
+			j++;
+		}
+		else {
+			if(j>=0&&(stringa[i+1]>='a'&&stringa[i+1]<='z')){
+				stringa[j]='-';
+				j++;
+		}
+	}
+}
+stringa[j]='\0';
+}

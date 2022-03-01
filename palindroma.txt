@@ -1,0 +1,40 @@
+#include <stdio.h>
+/*Specifiche:
+ * input: 1 sequenza di numeri 
+ * pre-condizioni: l è la lunghezza dell' array  
+ * output: un intero pali
+ * post condizioni :pali ha valore 1 se nessun numero ha modulo uguale, 0 altrimenti
+ * problema: verifica universale */
+ int palindroma(int sequenza[],int l);
+ int main()
+ {
+printf("ciao sono un programma che verifica se in un' array esiste tutti i numeri hanno modulo diverso\n");
+	 int lunghezza;//* variabile che contiene la lunghezza
+	 printf("quanti numeri vuoi nella sequenza?\t");
+	 scanf("%d",&lunghezza);
+	 int interi[lunghezza];//*dichiarazione array
+	 for(int i=0; i<lunghezza; i++){
+		 printf("inserisci un numero\t");
+		 scanf("%d",&interi[i]);
+	 }
+	  //* istruzioni di stampa
+	 if (palindroma(interi, lunghezza)==1)
+		 printf("la sequenza e' palindroma\n");
+		 else
+			 printf("la sequenza non e' palindroma\n");
+ }
+ int palindroma(int sequenza[],int l)
+ {
+	 int pali; 
+	 pali=1;
+	 int j=0;
+	 
+	 while(j<l/2 && pali)
+	 {
+			 if (sequenza[j]!=sequenza[l-1-j])
+				 pali=0;
+				 else 
+		 j++;}
+
+	 return pali;
+ }

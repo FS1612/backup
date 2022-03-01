@@ -1,0 +1,38 @@
+/*specifiche
+ * input una sequenza di interi
+ * precondizioni l è la lunghezza della sequenza
+ * output un inntero contiene 
+ * post condizione: contiene vale uno se almeno una tripla ha il prodotto di 2 numeri pari a 12
+ * ricerca esistenziale*/
+ #include <stdio.h>
+ #include <stdlib.h>
+ int tripleprodotto12(int sequenza[],int lunghezza);
+ int main()
+ {
+	 printf("sono un programma che verifica se almeno una tripla della sequenza abbia 2 numeri che moltiplicati tra loro risultino 12\n");
+	 int l;
+	 printf("caro utente inserisci lunghezza\t");
+	 scanf("%d",&l);
+	 int interi[l];
+	 for(int i=0; i<l;i++){
+		 printf("inserisci un numero\t");
+		 scanf("%d",&interi[i]);
+	 }
+	 if(tripleprodotto12(interi,l)==1)
+		 printf("istanza verificata\n");
+		 else
+			 printf("istanza negativa\n");
+ }
+ int tripleprodotto12(int sequenza[],int lunghezza){
+	 int contiene;
+	 int i;
+	 contiene=0;
+	 i=0;
+	 while(i<lunghezza-3&&!contiene){
+		 if(((sequenza[i]*sequenza[i+1])==12)||((sequenza[i]*sequenza[i+2])==12)||((sequenza[i+1]*sequenza[i+2]==12)))
+			 contiene=1;
+			 else  
+				 i++;
+	 }
+	 return contiene;
+ }

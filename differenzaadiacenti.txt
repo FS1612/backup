@@ -1,0 +1,39 @@
+/*specifiche:
+ * input: una sequenza di interi
+ * pre-condizioni: l è la lunghezza della sequenza
+ * output: un intero differenza
+ * post-condizioni:differenza vale la differenza dei due interi adiacenti
+ * tipo di problema: verifica esistenziale*/
+#include <stdio.h>
+#include <stdlib.h>
+int differenzaadiacenti(int sequenza[], int lunghezza);
+int main(){
+	//*funzione principale
+	printf("sono un programma che da una sequenza di numeri in imput ricava la differenza tra i numeri adiacenti\n");
+	int l; //* intero contenente la lunghezza dell'arrau di numeri
+	printf("quanti interi vuoi nel tuo array?\t");
+	scanf("%d",&l);
+	int interi[l];
+	//*ciclo che parte da 1 ed arriva al numero l, e chiede di inserire i numeri nell'array .
+	for(int i=0;i<l; i++){
+		printf("inserisci un numero\t");
+		scanf("%d",&interi[i]);
+	}
+	//* istruzioni di stampa
+	if(differenzaadiacenti(interi,l)==1)
+	printf("esiste almeno un elemento per che e' pari alla differenza tra i suoi adiacenti\n");
+	else
+		printf("non esiste nessunn elemento per che e' pari alla differenza tra i suoi adiacenti\n");
+}
+int differenzaadiacenti(int sequenza[], int lunghezza){
+	int differenza;
+	differenza=0;
+	int j=1;
+	while(j<lunghezza-1 &&!differenza){
+		if(sequenza[j]==(sequenza[j+1]-sequenza[j-1])||sequenza[j]==(sequenza[j-1]-sequenza[j+1]))
+			differenza=1;
+		else 
+			j++;
+	}
+		return differenza;
+}

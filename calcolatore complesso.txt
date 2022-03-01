@@ -1,0 +1,72 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+main()
+{
+	char x, q;
+	int lato;
+	//*cosa sai fare?
+	printf("posso risolvere problemi di geometria\n");
+	printf("che posso fare per te?\n\n");
+	x = getchar ;
+	putchar(x);
+#if (x == q )
+{
+	printf("inserisci valore\n");
+	scanf("%d", &lato);
+//*quadrato formule
+int aq, pq, dq;
+aq = lato * lato;
+printf("l'area del quadrato di lato %d e' %d\n\n", lato, aq);
+pq = lato * 4 ;
+printf_s("il perimetro del quadrato di lato %d e' %d\n\n", lato, pq);
+dq = lato * sqrt(2);
+printf("la diadonale del quadrato di lato %d e' %d\n\n\a", lato, dq);
+#endif;
+}
+#if( x != q)
+{
+//* formule rettangolo
+int base, altezza ;
+printf("immetti valori di base e altezza\n\n");
+scanf("%d", &base);
+scanf("%d", &altezza);
+int pr, ar, dr;
+pr = (base + altezza) * 2;
+
+printf("il perimetro del retangolo di base %d e altezza %d e' %d\n\n", base, altezza, pr);
+ar = base * altezza;
+printf("l'area del rettangolo di base %d e altezza %d e' %d\n\n", base, altezza, ar);
+dr = sqrt(base * base + altezza * altezza);
+printf("la diagonale del rettangolo di base %d e altezza %d e' %d\n\n\a", base, altezza, dr);
+//*formule cerchio M_PI=pi greco
+int r;
+printf("assegna un valore al raggio\n\n");
+scanf("%d", &r);
+int dc, pc, ac;
+dc = 2 * r;
+printf("il diametro del cerchio di raggio %d e' %d\n\n", r, dc);
+pc = 2 * r * M_PI;
+printf("il perimetro del cerchio di raggio %d e' %d \n\n", r, pc);
+ac = M_PI * r * r;
+printf("l'area del cerchio di raggio %d e' %d\n\n\a", r, ac);
+//* formule triangolo, c=cateto
+int c1, c2;
+printf("assegna le misure ai cateti, per base e altezza\n");
+scanf("%d", &c1);
+scanf("%d", &c2);
+int pt, at, rci, rcc, lob; //* rci=raggio circonferenza inscritta, rcc: raggio circonferenza circoscritta, lob= lato obliquo
+at = (c1 * c2) / 2;
+printf("l'area del triangolo di base %d e altezza %d e' %d\n\n", c1, c2, at);
+lob = sqrt(c1 * c1 + c2 + c2);
+printf("il lato obiquo del triangolo di base %d e altezza %d e' %d\n\n", c1, c2, lob);
+pt = (2 * lob) + c1;
+printf("il perimetro del triangolo di base %d e altezza %d e' %d\n\n", c1, c2, pt);
+rcc = lob / 2;
+printf("il raggio della circonferenza circoscritta al triangolo e' %d\n\n", rcc);
+rci =  (c1 + c2 - lob) / 2 ;
+printf("il raggio della circonferenza inscritta al triangolo e' %d\n\n\a", rci);
+printf("bella pe te\a");
+exit(0);
+#endif;
+}

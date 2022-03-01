@@ -1,0 +1,37 @@
+#include <stdio.h>
+/*Specifiche:
+ * input: 1 sequenza di numeri 
+ * pre-condizioni: l è la lunghezza dell' array  
+ * output: un intero pali
+ * post condizioni :pali ha valore 1 se nessun numero ha modulo uguale, 0 altrimenti
+ * problema: verifica universale */
+ int contaSequenze(int sequenza[],int l);
+ int main()
+ {
+printf("ciao sono un programma che conta quante sequenze ci sono in un array\n");
+	 int lunghezza;//* variabile che contiene la lunghezza
+	 printf("quanti numeri vuoi nella sequenza?\t");
+	 scanf("%d",&lunghezza);
+	 int interi[lunghezza];//*dichiarazione array
+	 for(int i=0; i<lunghezza; i++){
+		 printf("inserisci un numero\t");
+		 scanf("%d",&interi[i]);
+	 }
+	  //* istruzioni di stampa
+		 printf("ci sono %d  sequenze \n", contaSequenze(interi, lunghezza));
+ }
+ int contaSequenze(int sequenza[],int l)
+ {int seq;
+ seq =0;
+ for(int j=0; j<l; j++){
+	 if (j==0) 
+		 { if (sequenza[j]!=0)
+		 seq++;}
+		else{
+			if((sequenza[j]>0 && sequenza[j-1]<=0)||(sequenza[j]<0 && sequenza[j-1]>=0))
+				seq++;
+				}
+		}
+		return seq;
+
+ }

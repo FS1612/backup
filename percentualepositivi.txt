@@ -1,0 +1,45 @@
+#include <stdio.h>
+/*Specifiche:
+ * input: una sequenza di numeri 
+ * pre-condizioni: l è la lunghezza dell'array di numeri
+ * output: un intero contiene 
+ * post-condizioni: contiene vale 1 se la sequenza contiene una quantità di numeri positivi pari alla metà della lunghezza, 0 altrimenti
+ * problema: conteggio */
+int percentualePositivi(int sequenza[], int l);
+//* funzione principale 
+int main()
+{
+	printf("ciao sono un programma che verifica se almeno la meta' degli interi positivi sono positivi\n");
+	int lunghezza; //* dichiarazione variabile di lunghezza array
+//* richiesta inserimento dati all'utente
+printf("caro utente quanti numeri deve avere la tua sequenza?\t");
+scanf("%d",&lunghezza);
+int interi[lunghezza]; //*dichiarazione array
+for(int i=0; i<lunghezza;i++){
+	printf("inserisci un valore\t");
+	scanf("%d",&interi[i]);
+}
+//* stampa a schermo i risultati della ricerca 
+if (percentualePositivi(interi,lunghezza))
+	printf("almeno la meta' dei numeri inseriti sono positivi\n");
+	else
+		printf("piu' della meta' dei numeri sono negativi\n");
+
+}
+int percentualePositivi(int sequenza[],int l){
+	int contiene; //* variabile che conterra 1 o 0
+
+	int positivi; //* variabile contatore per i numeri positivi
+	for(int j=0; j<l; j++){
+		if(sequenza[j]>0)
+			positivi=0;
+			positivi++;
+	}
+	int meta;
+	meta= l/2;
+if ( positivi>=meta )
+	contiene=1;
+	else
+		contiene=0;
+		return contiene;
+}

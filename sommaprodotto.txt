@@ -1,0 +1,36 @@
+/*specifiche 
+ * input:una sequenza di interi
+ * pre condizioni: l è la lunghezza dell'array
+ * output: un intero contiene
+ * post condizioni: contiene è pari a 1 se in ogni tripletta un nemero è pari alla somma degli altri 2, 0 altrimenti
+ * verifica universale*/
+ #include <stdio.h>
+ #include <stdlib.h>
+ int sommaprodotto(int numeri[],int lunghezza);
+ int main(){
+	 //*funzione principale che chiede all'udente di inserire la lunghezza e i numeri dell'array
+	 printf("sono un programma che controlla se tutte le triple sono formate da un numero pari alla somma degli altri 2\n");
+	 int l;
+	 printf("quanti numeri vuoi nel tuo array?\t");
+	 scanf("%d",&l);
+	 int interi[l];
+	for(int i=0;i<l;i++){
+		printf("inserisci un numero \t");
+		scanf("%d",&interi[i]);
+	}
+		if(sommaprodotto(interi,l)==1)
+		printf("almeno una tripla della sequenza contiene un numero pari alla somma o al prodotto degli altri 2\n");
+		else
+			printf("non esiste nessunna tripla in cui un numero e' pari alla somma o al prodotto degli altri 2\n");
+ }
+ int sommaprodotto(int numeri[],int lunghezza){
+	 int contiene=0;
+	 int i=0;
+	 while(i<lunghezza-2 && !contiene){
+		 if((numeri[i+2]==numeri[i]+numeri[i+1])||(numeri[i+2]==numeri[i]*numeri[i+1]))
+			 contiene=1;
+			 else 
+				 i++;
+	 }
+	 return contiene;
+ }

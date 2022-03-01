@@ -1,0 +1,21 @@
+#include <stdio.h>
+int main()
+{
+int  x, y, z, w;
+		printf("inserisci 4 numeri\n");
+		scanf("%d%d%d%d", &x, &y, &z, &w);
+		
+		if(x==y && y==w && w==z) 
+		printf("tutti i numeri sono  uguali!\n");
+	else
+		if(x==y && y==w || x==y && y==z || x==w && w==z || y==w && w==z)
+			printf("Ci sono  3 numeri uguali!\n");
+		else
+			if(x==y && w==z || x==w && y==z || x==z && y==w)
+				printf("Ci sono 2 coppie di numeri uguali!\n");
+			else
+				if(x==y || x==w ||  x==z ||  y==w ||  y==z ||  w==z)
+					printf("Ci sono 2 numeri uguali!\n");
+				else 
+					printf("nessun numero %c uguale\n",138);
+}

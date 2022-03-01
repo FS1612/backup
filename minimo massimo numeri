@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+int main()
+{
+int lunghezza ;
+ printf("quanti interi vuoi nella tua stringa ?\n");
+ scanf("%d",&lunghezza);
+ int interi[lunghezza];
+ printf("aggiungi i tuoi interi\n");
+ for (int i=0; i<lunghezza; i++)
+	 scanf("%d",&interi[i]);
+	 for (int i=0; i<lunghezza; i++) 
+	printf("%d\t",interi[i]);
+	
+
+//*calcolo massimo 
+int massimo;
+massimo =interi[0];
+     for(int i=0; i<lunghezza; i++)
+	if(massimo<interi[i])
+		massimo=interi[i];
+
+
+//calcolo minimo
+int minimo;
+minimo=interi[0];
+for ( int i=0; i<lunghezza; i++)
+	if(minimo>interi[i])
+		minimo=interi[i];
+
+ //* stampa
+ printf("\nil minimo %c %d\n", 138, minimo);
+ printf("il massimo %c %d\n",138, massimo); 
+return 0;}

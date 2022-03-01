@@ -1,0 +1,24 @@
+#include <stdlib.h>
+#include <stdio.h>
+int coverti( int array[], int l);
+int main(){
+	printf("ciao sono un programma che converte un array in numero\n");
+	int lunghezza;
+	printf("quanti interi contiene il tuo array?\t");
+	scanf("%d",&lunghezza);
+	int interi[lunghezza];
+	for(int i=0;i<lunghezza;i++){
+		printf("inserisci il numero di indice i %d\t", i);
+		scanf("%d",&interi[i]);
+		}
+		printf("il numero associato all'array %c %d\t",138, converti(interi,lunghezza));
+}
+int converti( int array[], int l){
+	int numero;
+	if (l== 1)
+		numero=array[0]; 
+		else 
+			numero =converti(array,l-1)*10+array[l-1];
+			return numero;
+		
+}

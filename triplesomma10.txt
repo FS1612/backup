@@ -1,0 +1,41 @@
+/*Specifiche
+ * input: una sequenza di numeri
+ * precondizione: l è la lunghezza della sequenza
+ * output: un intero contiene
+ * postcondizione: contiene vale 1 se ogni tripla della sequenza contiene due numeri che sommati tra loro danno 10, 0 altrimenti
+ * tipo problema: verifica universale*/
+ #include <stdio.h>
+ #include <stdlib.h>
+ int triplesomma10(int numeri[],int lunghezza);//*dichiarazione funzione secondaria
+ int main(){
+	 //* funzione principale che presenta il programma e chiede all' utente di inserire prima la lunghezza e poi gli interi nell'array
+	 printf("Ciao sono un programma che verifica che in ogni tripla di una sequenza esistano due numeri la cui somma faccia 10\n");
+	 int l;//* dichiarazione variabile per la lunghezza dell'array
+	 printf("Quanti interi vuoi nel tuo array?\t");
+	 scanf("%d",&l);
+	 int interi[l];//* dichiarazione array di numeri interi con lunghezza l
+	 for(int i=0; i<l;i++){
+		 //*per ogni valore di i che parte da 0 e minore della lunghezza dell'array richiedi all'utente un numero e inseriscilo nell'array nella posizione i.
+		 printf("inserisci un numero\t");
+		 scanf("%d",&interi[i]);
+	 }
+	 //* istruzioni di stampa: se la funzione secondaria con valori interi, l, restituisce 1 stampa un messaggio che informa l'utente che la sequenza risulta positiva, se invece ritorna 0 , è negativa 
+	 if(triplesomma10(interi,l)==1)
+		 printf("tutte le triple contengono almeno 2 numeri che sommati tra loro danno 10\n");
+		 else
+			 printf("non tutte le triple contengono 2 elementi che sommati tra loro hanno risultato 10\n");
+ }
+ int triplesomma10(int numeri[], int lunghezza){
+	 //* sviluppo funzione secondaria, che verifica la presenza in ogni tripla di due interi la cui somma e' 10
+	 int contiene;
+	 int i;
+	 contiene =1;//*inizialmente tutte le triple contengono due numeri che sommati tra loro hanno risultato 10
+	 i=0;
+	 while(i<lunghezza-2&&contiene){//* per ogni interazione che va da 0 a lunghezza-2, se esiste almeno una tripla che non contenga due numeri con somma 10 aggiorna contiene a 0
+		 if(!((numeri[i]+numeri[i+1]==10)||(numeri[i+1]+numeri[i+2]==10)||(numeri[i]+numeri[i+2]==10)))
+			 contiene=0;
+			 else 
+				 i++;
+	 }
+	 return contiene;
+ }

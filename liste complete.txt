@@ -1,0 +1,882 @@
+//
+//  main.c
+//  Liste Riepilogo
+//
+//  Created by Filippo Vannutelli on 09/06/20.
+//  Copyright © 2020 Filippo Vannutelli. All rights reserved.
+//
+
+#include <stdio.h>
+#include <stdlib.h>
+
+/***** STRUTTURE *****/
+
+/* struttura per definire un nodo della lista */
+typedef struct Nodo {
+    int numero;             // campo dati
+    struct Nodo* next;      // campo puntatore
+} NODO;
+
+/***** STAMPE ******/
+
+/* funzione che stampa un nodo della lista */
+void stampaNumero (int numero) {
+    printf("%d\n", numero);
+}
+
+/* funzione di visualizzazione di una lista */
+void visualizzaLista (NODO* head) {
+    /* lista vuota? */
+    if (head==NULL)
+        printf("Lista vuota.\n\n");
+    else {
+        /* stampa, nodo per nodo, tutta la lista */
+        printf("Ecco la lista corrente.\n\n");
+        while (head!=NULL) {
+            stampaNumero(head->numero);
+            head = head->next;
+        }
+        printf("\n");
+    }
+}
+
+/***** INSERIMENTI *****/
+
+/* funzione che legge, da tastiera, il campo dati di un nodo della lista */
+void leggiNumero (int* numero) {
+    printf("Inserisci un intero: ");
+    scanf("%d", numero);
+}
+
+/* funzione d'inserimento in testa, realizzazione 1 */
+NODO* inserisciTesta1 (NODO* head) {
+    /* alloca memoria per il nuovo nodo */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* il nuovo nodo diventa la nuova testa della lista */
+    nuovoNodo->next = head;
+    return nuovoNodo;
+}
+
+/* funzione d'inserimento in testa, realizzazione 2 */
+void inserisciTesta2 (NODO** puntaHead) {
+    /*  allloca memoria per il nuovo nodo */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* collegamenti */
+    nuovoNodo->next = *puntaHead;
+    *puntaHead = nuovoNodo;
+}
+
+/* funzione d'inserimento in testa, realizzazione 3 */
+void inserisciTesta3 (NODO* head) {
+    /* alloca memoria per il nuovo nodo */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* collegamenti */
+    nuovoNodo->next = head->next;
+    head->next = nuovoNodo;
+}
+
+/* funzione d'inserimento in coda, realizzazione 1 */
+NODO* inserisciCoda1 (NODO* head) {
+    /* alloca memoria per il nuovo nodo e setta il suo campo next */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    nuovoNodo->next = NULL;
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* se la lista è vuota, inserimento in testa */
+    if (head==NULL)
+        head = nuovoNodo;
+    else {  // lista non vuota
+        /* vai a cercare la coda della lista */
+        NODO* nodo = head;      // per scorrere la lista
+        while (nodo->next!=NULL)
+            nodo = nodo->next;
+        /* ultimo nodo trovato, collegaci il nuovo nodo */
+        nodo->next = nuovoNodo;
+    }
+    return head;
+}
+
+/* funzione d'inserimento in coda, realizzazione 2 */
+void inserisciCoda2 (NODO** puntaHead) {
+    /* alloca memoria per il nuovo nodo e setta il suo campo next */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    nuovoNodo->next = NULL;
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* se la lista è vuota, inserimento in testa */
+    if (*puntaHead==NULL)
+        *puntaHead = nuovoNodo;
+    else {  // lista non vuota
+        /* vai a cercare la coda della lista */
+        NODO* nodo = *puntaHead;        // per scorrere la lista
+        while (nodo->next!=NULL)
+            nodo = nodo->next;
+        /* ultimo nodo trovato, collegaci il nuovo nodo */
+        nodo->next = nuovoNodo;
+    }
+}
+
+/* funzione d'inserimento in coda, realizzazione 3 */
+void inserisciCoda3 (NODO* head) {
+    /* alloca memoria per il nuovo nodo e setta il suo campo next */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    nuovoNodo->next = NULL;
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* vai a cercare la coda della lista */
+    while (head->next!=NULL)
+        head = head->next;
+    /* ultimo nodo trovato, collegaci il nuovo nodo */
+    head->next = nuovoNodo;
+}
+
+/* funzione che verifica se un nodo della lista precede un altro */
+int precede (NODO* n1, NODO* n2) {
+    return (n1->numero < n2->numero);
+}
+
+/* funzione d'inserimento ordinato, realizzazione 1 */
+NODO* inserisciOrdinato1 (NODO* head) {
+    /* alloca memoria per il nuovo nodo */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* inserimento in testa? */
+    if (head==NULL || precede(nuovoNodo, head)) {
+        nuovoNodo->next = head;
+        head = nuovoNodo;
+    }
+    else {  // lista non vuota
+        /* trova la posizione giusta */
+        NODO* nodo = head;      // per scorrere la lista
+        int trovato = 0;        // booleano che verifica se è stata trovata la posizione giusta, per il momento no
+        
+        /* scorri tutta la lista finchè non finisce o finchè non trovi la posizione giusta */
+        while (nodo->next!=NULL && !trovato)
+            /* hai trovato la posizione giusta? */
+            if (precede(nuovoNodo, nodo->next))
+                trovato = 1;
+            else // altrimenti vai avanti
+                nodo = nodo->next;
+        /* collegamenti */
+        nuovoNodo->next = nodo->next;       // va bene anche se nodo->next è NULL
+        nodo->next = nuovoNodo;
+    }
+    return head;
+}
+
+/* funzione d'inserimento ordinato, realizzazione 2 */
+void inserisciOrdinato2 (NODO** puntaHead) {
+    /* alloca memoria per il nuovo nodo */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* inserimento in testa? */
+    if (*puntaHead==NULL || precede(nuovoNodo, *puntaHead)) {
+        nuovoNodo->next = *puntaHead;
+        *puntaHead = nuovoNodo;
+    } else {    // lista non vuota
+        /* trova la posizione giusta */
+        NODO* nodo = *puntaHead;   // per scorrere la lista
+        int trovato = 0;           // booleano che verifica se è stata trovata la posizione giusta, per il momento no
+        /* scorri la lista finchè non finisce o finchè non hai trovato la posizione giusta */
+        while (nodo->next!=NULL && !trovato)
+            /* hai trovato la posizione giusta? */
+            if (precede(nuovoNodo, nodo->next))
+                trovato = 1;
+            else    // altrimenti vai avanti
+                nodo = nodo->next;
+        /* collegamenti */
+        nuovoNodo->next = nodo->next;
+        nodo->next = nuovoNodo;
+    }
+}
+
+/* funzione d'inserimento ordinato, realizzazione 3 */
+void inserisciOrdinato3 (NODO* head) {
+    /* alloca memoria per il nuovo nodo */
+    NODO* nuovoNodo = malloc(sizeof(NODO));
+    
+    /* riempimento campo dati */
+    leggiNumero(&nuovoNodo->numero);
+    printf("Inserimento effettuato.\n\n");
+    
+    /* trova la posizione giusta */
+    int trovato = 0;
+    while (head->next!=NULL && !trovato)
+        if (precede(nuovoNodo, head->next))
+            trovato = 1;
+        else    // altrimenti vai avanti
+            head = head->next;
+    /* collegamenti */
+    nuovoNodo->next = head->next;
+    head->next = nuovoNodo;
+}
+
+/**** CANCELLAZIONI ****/
+
+/* funzione di cancellazione in testa, realizzazione 1 */
+NODO* cancellaTesta1 (NODO* head) {
+    /* lista vuota? */
+    if (head==NULL)
+        printf("Lista vuota.\n\n");
+    else {
+        /* dealloca il primo nodo e rimpiazzalo col secondo */
+        NODO* app = head;       // nodo d'appoggio, per la cancellazione
+        head = head->next;
+        free(app);
+        printf("Cancellazione effettuata.\n\n");
+    }
+    return head;
+}
+
+/* funzione di cancellazione in testa, realizzazione 2 */
+void cancellaTesta2 (NODO** puntaHead) {
+    /* lista vuota? */
+    if (*puntaHead==NULL)
+        printf("Lista vuota.\n\n");
+    else {
+        /* dealloca il primo nodo e rimpiazzalo col secondo */
+        NODO* app = *puntaHead;     // nodo d'appoggio, per la cancellazione
+        *puntaHead = (*puntaHead)->next;
+        free(app);
+        printf("Cancellazione effettuata.\n\n");
+    }
+}
+
+/* funzione di cancellazione in testa, realizzazione 3 */
+void cancellaTesta3 (NODO* head) {
+    /* lista vuota? */
+    if (head->next==NULL)
+        printf("Lista vuota.\n\n");
+    else {
+        /* dealloca il primo nodo e rimpiazzalo col secondo */
+        NODO* app = head->next;     // nodo d'appoggio, per la cancellazione
+        head->next = app->next;
+        free(app);
+        printf("Cancellazione effettuata.\n\n");
+    }
+}
+
+/* funzione di cancellazione in coda, realizzazione 1 */
+NODO* cancellaCoda1 (NODO* head) {
+    
+    NODO* nodo = NULL;       // nodo d'appoggio, per la cancellazione
+    
+    /* lista vuota? */
+    if (head==NULL)
+        printf("Lista vuota.\n\n");
+    else {  // lista non vuota
+        /* un solo elemento? */
+        if (head->next==NULL) {
+            /* cancellazione in testa */
+            nodo = head;
+            head = head->next;
+            free(nodo);
+        }
+        else {
+            /* inizializza due puntatori per scorrere la lista */
+            nodo = head->next;      // scorri la lista a partire dal secondo nodo
+            NODO* prec = head;      // il nodo precedente, a quello dichiarato sopra
+            /* vai a cercare la coda della lista */
+            while (nodo->next!=NULL) {
+                nodo = nodo->next;
+                prec = prec->next;
+            }
+            /* ultimo nodo trovato, deallocalo e rimpiazzalo col penultimo */
+            prec->next = nodo->next;
+            free(nodo);
+        }
+        printf("Cancellazione effettuata.\n\n");
+    }
+    return head;
+}
+
+/* funzione di cancellazione in coda, realizzazione 2 */
+void cancellaCoda2 (NODO** puntaHead) {
+    
+    NODO* nodo = NULL;          // nodo d'appoggio, per scorrere la lista
+    
+    /* lista vuota? */
+    if (*puntaHead==NULL)
+        printf("Lista vuota.\n\n");
+    else {  // lista non vuota
+        /* un solo elemento? */
+        if ((*puntaHead)->next==NULL) {
+            /* cancellazione in testa */
+            nodo = *puntaHead;
+            *puntaHead = (*puntaHead)->next;
+            free(nodo);
+        }
+        else {
+            /* inizializza due puntatori per scorrere la lista */
+            nodo = (*puntaHead)->next;      // scorri la lista a partire dal secondo nodo della lista
+            NODO* prec = *puntaHead;        // il nodo precedente a quello dichiarato sopra
+            /* vai a cercare la coda della lista */
+            while (nodo->next!=NULL) {
+                nodo = nodo->next;
+                prec = prec->next;
+            }
+            /* ultimo nodo trovato, deallocalo e rimpiazzalo col penultimo */
+            prec->next = nodo->next;
+            free(nodo);
+        }
+        printf("Cancellazione effettuata.\n\n");
+    }
+}
+
+/* funzione di cancellazione in coda, realizzazione 3 */
+void cancellaCoda3 (NODO* head) {
+    /* lista vuota? */
+    if (head->next==NULL)
+        printf("Lista vuota.\n\n");
+    else {  // lista non vuota
+        /* inizializza due puntatori per scorrere la lista */
+        NODO* nodo = head->next;    // scorri la lista a partire dal primo nodo vero
+        NODO* prec = head;          // il nodo precedente a quello dichiarato sopra
+        /* vai a cercare la coda della lista */
+        while (nodo->next!=NULL) {
+            nodo = nodo->next;
+            prec = prec->next;
+        }
+        /* ultimo nodo trovato, deallocalo e rimpiazzalo col penultimo */
+        prec->next = nodo->next;
+        free(nodo);
+        printf("Cancellazione effettuata.\n\n");
+    }
+}
+
+/* funzione di cancellazione singola per valore, realizzazione 1 */
+NODO* cancellaPerValore1 (NODO* head) {
+    
+    NODO* nodo = NULL;      // nodo d'appoggio, per la cancellazione
+    int valore;             // il valore da cancellare
+    int cancellato = 0;     // booleano che verifica se è stata fatta una cancellazione, per ora no
+    
+    /* richiedi all'utente il valore da cancellare */
+    printf("Inserisci l'intero da cancellare: ");
+    scanf("%d", &valore);
+    
+    /* lista vuota? */
+    if (head==NULL)
+        printf("Lista vuota.\n\n");
+    else {  // lista non vuota
+        /* cancellazione in testa? */
+        if (head->numero==valore) {
+            cancellato = 1;
+            nodo = head;
+            head = head->next;
+            free(nodo);
+        }   // trova la posizione giusta
+        else {
+            /* inizializza due puntatori per scorrere la lista */
+            nodo = head->next;      // scorri la lista a partire dal secondo nodo
+            NODO* prec = head;      // il nodo precedente a quello dichiarato sopra
+            
+            /* scorri tutta la lista finchè non finisce, o finchè non trovi il nodo da cancellare */
+            while (nodo!=NULL && !cancellato)
+                /* nodo trovato? */
+                if (nodo->numero==valore) {
+                    cancellato = 1;
+                    prec->next = nodo->next;
+                    free(nodo);
+                } else {    // altrimenti vai avanti
+                    nodo = nodo->next;
+                    prec = prec->next;
+                }
+        }
+        if (cancellato)
+            printf("Cancellazione effettuata.\n\n");
+        else
+            printf("Non è stata effettuata alcuna cancellazione.\n\n");
+    }
+    return head;
+}
+
+/* funzione di cancellazione singola per valore, realizzazione 2 */
+void cancellaPerValore2 (NODO** puntaHead) {
+    
+    NODO* nodo = NULL;      // nodo d'appoggio, per la cancellazione
+    int valore;             // il valore da cancellare
+    int cancellato = 0;     // booleano che verifica se è stata fatta una cancellazione, per ora no
+    
+    /* richiedi all'utente il valore da cancellare */
+    printf("Inserisci l'intero da cancellare: ");
+    scanf("%d", &valore);
+    
+    /* lista vuota? */
+    if (*puntaHead==NULL)
+        printf("Lista vuota.\n\n");
+    else {  // lista non vuota
+        /* cancellazione in testa? */
+        if ((*puntaHead)->numero==valore) {
+            nodo = *puntaHead;
+            *puntaHead = (*puntaHead)->next;
+            free(nodo);
+            cancellato = 1;
+        }   // trova la posizione giusta
+        else {
+            /* inizializza due puntatori per scorrere la lista */
+            nodo = (*puntaHead)->next;  // scorri la lista a partire dal secondo nodo
+            NODO* prec = *puntaHead;    // il nodo precedente a quello dichiarato sopra
+            
+            /* scorri tutta la lista finchè non finisce o finchè non hai trovato il nodo da cancellare */
+            while (nodo!=NULL && !cancellato)
+                /* nodo trovato? */
+                if (nodo->numero==valore) {
+                    prec->next = nodo->next;
+                    free(nodo);
+                    cancellato = 1;
+                } else {    // altrimenti vai avanti
+                    nodo = nodo->next;
+                    prec = prec->next;
+                }
+        }
+        if (cancellato)
+            printf("Cancellazione effettuata.\n\n");
+        else
+            printf("Non è stata effettuata alcuna cancellazione.\n\n");
+    }
+}
+
+/* funzione di cancellazione singola per valore, realizzazione 3 */
+void cancellaPerValore3 (NODO* head) {
+    
+    int valore;             // il valore da cancellare
+    int cancellato = 0;     // booleano che verifica se è stata fatta una cancellazione, per ora no
+    
+    /* richiedi all'utente il valore da cancellare */
+    printf("Inserisci l'intero da cancellare: ");
+    scanf("%d", &valore);
+    
+    /* lista vuota? */
+    if (head->next==NULL)
+        printf("Lista vuota.\n\n");
+    else {  // lista non vuota
+        /* inizializza due puntatori */
+        NODO* nodo = head;              // per scorrere la lista
+        NODO* app = NULL;               // nodo d'appoggio, per la cancellazione
+        
+        /* scorri tutta la lista finchè non finisce o finchè non hai trovato il nodo da cancellare */
+        while (nodo->next!=NULL && !cancellato)
+            /* nodo trovato? */
+            if (nodo->next->numero==valore) {
+                cancellato = 1;
+                app = nodo->next;
+                nodo->next = nodo->next->next;
+                free(app);
+            } else  // altrimenti vai avanti
+                nodo = nodo->next;
+        
+        if (cancellato)
+            printf("Cancellazione effettuata.\n\n");
+        else
+            printf("Non è stata effettuata alcuna cancellazione.\n\n");
+    }
+}
+
+/* funzione di cancellazione multipla per valore, realizzazione 1 */
+NODO* cancellaMultipla1 (NODO* head) {
+    
+    NODO* nodo = head;      // per scorrere la lista
+    NODO* app = NULL;       // nodo d'appoggio, per la cancellazione
+    int valore;             // il valore da cancellare
+    int cancellato = 0;     // booleano che verifica se è stata fatta una cancellazione, per ora no
+    
+    /* richiedi all'utente il valore da cancellare */
+    printf("Inserisci l'intero da cancellare: ");
+    scanf("%d", &valore);
+    
+    /* lista vuota? */
+    if (head==NULL)
+        printf("Lista vuota.\n\n");
+    else {
+        while (head!=NULL && nodo!=NULL) {
+            if (head->numero==valore) {
+                cancellato = 1;
+                app = head;
+                head = head->next;
+                free(app);
+            }
+            else {
+                nodo = head->next;
+                NODO* prec = head;
+                while (nodo!=NULL) {
+                    if (nodo->numero==valore) {
+                        cancellato = 1;
+                        app = nodo;
+                        prec->next = nodo->next;
+                        nodo = nodo->next;
+                        free(app);
+                    }
+                    else {
+                        nodo = nodo->next;
+                        prec = prec->next;
+                    }
+                }
+            }
+        }
+        if (cancellato)
+            printf("Sono state effettuate delle cancellazioni.\n\n");
+        else
+            printf("Non sono state effettuate delle cancellazioni.\n\n");
+    }
+    return head;
+}
+
+/* funzione di cancellazione multipla per valore, realizzazione 2 */
+void cancellaMultipla2 (NODO** puntaHead) {
+    
+    NODO* nodo = *puntaHead;        // per scorrere la lista
+    NODO* app = NULL;               // nodo d'appoggio, per la cancellazione
+    int cancellato = 0;             // booleano che verifica se sono state fatte cancellazioni, per ora no
+    int valore;                     // il valore da cancellare
+    
+    /* richiedi all'utente il valore da cancellare */
+    printf("Inserisci l'intero da cancellare: ");
+    scanf("%d", &valore);
+    
+    /* lista vuota? */
+    if (*puntaHead==NULL)
+        printf("Lista vuota.\n\n");
+    else {
+        /* continua a fare cancellazioni finchè la lista non finisce */
+        while (*puntaHead!=NULL && nodo!=NULL)
+            /* ci sono cancellazioni in testa da fare? */
+            if ((*puntaHead)->numero==valore) {
+                /* dealloca il primo nodo della lista e rimpiazzalo col secondo */
+                cancellato = 1;
+                app = *puntaHead;
+                *puntaHead = (*puntaHead)->next;
+                free(app);
+            }
+            else {
+                /* inizializza due puntatori per scorrere la lista */
+                nodo = (*puntaHead)->next;      // comincia a scorrere la lista a partire dal secondo nodo
+                NODO* prec = *puntaHead;        // il nodo precedente a quello dichiarato sopra
+                
+                /* scorri tutta la lista e fai tutte le cancellazioni necessarie */
+                while (nodo!=NULL)
+                    /* nodo da cancellare? */
+                    if (nodo->numero==valore) {
+                        /* deallocalo */
+                        cancellato = 1;
+                        app = nodo;
+                        prec->next = nodo->next;
+                        nodo = nodo->next;
+                        free(app);
+                    }
+                    else {    // altrimenti vai avanti
+                        nodo = nodo->next;
+                        prec = prec->next;
+                    }
+            }
+        if (cancellato)
+            printf("Cancellazione effettuata.\n\n");
+        else
+            printf("Non è stata effettuata alcuna cancellazione.\n\n");
+    }
+}
+
+/* funzione di cancellazione multipla per valore, realizzazione 3 */
+void cancellaMultipla3 (NODO* head) {
+    
+    NODO* nodo = head;              // per scorrere la lista
+    NODO* app = NULL;               // nodo d'appoggio, per la cancellazione
+    int cancellato = 0;             // booleano che verifica se sono state fatte cancellazioni, per ora no
+    int valore;                     // il valore da cancellare
+    
+    /* richiedi all'utente il valore da cancellare */
+    printf("Inserisci l'intero da cancellare: ");
+    scanf("%d", &valore);
+    
+    /* lista vuota? */
+    if (head->next==NULL)
+        printf("Lista vuota.\n\n");
+    else {
+        /* continua a fare cancellazioni finchè la lista non finisce */
+        while (nodo->next!=NULL)
+            /* se il nodo corrente non è da cancellare, vai avanti */
+            if (nodo->next->numero!=valore)
+                nodo = nodo->next;
+            else {
+                /* altrimenti deallocalo */
+                cancellato = 1;
+                app = nodo->next;
+                nodo->next = nodo->next->next;
+                free(app);
+            }
+        if (cancellato)
+            printf("Cancellazione effettuata.\n\n");
+        else
+            printf("Non è stata effettuata alcuna cancellazione.\n\n");
+    }
+}
+
+/***** ORDINAMENTO ******/
+
+/* funzione che scambia due nodi */
+void scambia (NODO* n1, NODO* n2) {
+    int temp = n1->numero;
+    n1->numero = n2->numero;
+    n2->numero = temp;
+}
+
+/* funzione d'ordinamento, implementa bubble sort */
+void bubble (NODO* head) {
+    
+    NODO* nodo = NULL;      // per scorrere la lista
+    int cambiato = 1;       // booleano che verifica se sono avvenuti degli scambi
+    
+    if (head == NULL || head->next == NULL)
+        printf("Lista troppo piccola.\n\n");
+    else {
+        while (cambiato) {
+            cambiato = 0;
+            for (nodo = head; nodo->next!=NULL; nodo = nodo->next) {
+                if (precede(nodo->next, nodo)) {
+                    cambiato = 1;
+                    scambia(nodo, nodo->next);
+                }
+            }
+        }
+        printf("Ordinamento effettuato.\n\n");
+    }
+}
+
+/* funzione di ordinamento, implementa selection sort */
+void selection (NODO* head) {
+    
+    NODO* nodo = NULL;      // per scorrere la lista
+    NODO* minimo = NULL;    // per il minimo corrente
+    NODO* primo = head;     // il primo elemento della lista non ordinata
+    int temp;               // variabile temporanea, d'appoggio
+    
+    if (head==NULL || head->next==NULL)
+        printf("Lista troppo piccola.\n\n");
+    else {
+        while (primo!=NULL) {
+        
+            minimo = primo;
+        
+            for (nodo = primo->next; nodo!=NULL ; nodo = nodo->next)
+                if (precede(nodo, minimo))
+                minimo = nodo;
+        
+            temp = primo->numero;
+            primo->numero = minimo->numero;
+            minimo->numero = temp;
+        
+            primo = primo->next;
+        }
+        printf("Ordinamento effettuato.\n\n");
+    }
+}
+
+/***** GESTIONE FILE *****/
+
+/* funzione di acquisizione da file di testo */
+NODO* acquisizioneTestuale () {
+    
+    NODO* head = NULL;      // per la testa della lista
+    NODO* current = NULL;   // per il nodo corrente
+    NODO* previous = NULL;  // per l'ultimo nodo letto
+    char carattere;         // verifica di lettura
+    
+    /* apri il file di testo in lettura */
+    FILE* fp = fopen("Riepilogo.txt", "r");
+    
+    /* se il file non si è aperto non devi fare nulla */
+    if (fp!=NULL) {
+        /* verifica che il file non sia vuoto */
+        carattere = fgetc(fp);
+        if (carattere!=EOF) {
+            /* memorizza la testa della lista */
+            head = malloc(sizeof(NODO));
+            fscanf(fp, "%d", &head->numero);
+            
+            /* la testa della lista diventa l'ultimo nodo letto */
+            previous = head;
+            
+            /* leggi, ad uno ad uno, tutti gli altri nodi della lista */
+            do {
+                /* verifica che il file non sia finito */
+                carattere = fgetc(fp);
+                if (carattere!=EOF) {
+                    /* memorizza il nodo corrente */
+                    current = malloc(sizeof(NODO));
+                    fscanf(fp, "%d", &current->numero);
+                    
+                    /* collega il nodo corrente all'ultimo nodo letto */
+                    previous->next = current;
+                    
+                    /* il nodo corrente diventa l'ultimo nodo letto */
+                    previous = current;
+                }
+            } while (carattere!=EOF);
+            
+            /* il file è finito, poni un termine anche alla lista */
+            previous->next = NULL;
+        }
+    }
+    /* chiudi il file e restituisci la testa della lista */
+    fclose(fp);
+    return head;
+}
+
+/* funzione di salvataggio su file di testo */
+void salvaTestuale (NODO* head) {
+    /* apri il file di testo, o creane uno, in scrittura */
+    FILE* fp = fopen("Riepilogo.txt", "w");
+    
+    /* lascia una riga vuota e scrivi nodo per nodo tutta la lista */
+    fprintf(fp, "\n");
+    while (head!=NULL) {
+        fprintf(fp, "%d", head->numero);
+        if (head->next!=NULL)
+            fprintf(fp, "\n");
+        head = head->next;
+    }
+    /* chiudi il file e conferma la riuscita del salvataggio */
+    fclose(fp);
+    printf("Salvataggio riuscito.\n\n");
+}
+
+/* funzione di acquisizione da file binario */
+NODO* acquisizioneBinaria () {
+    
+    NODO* head = NULL;      // per la testa della lista
+    NODO* current = NULL;   // per il nodo corrente
+    NODO* previous = NULL;  // per l'ultimo nodo letto
+    int intero;             // un intero, variabile d'appoggio
+    int letto;              // verifica di lettura
+    
+    /* apri il file binario in lettura */
+    FILE* fp = fopen("Riepilogo.dat", "rb");
+    
+    /* se il file non si è aperto non devi fare nulla */
+    if (fp!=NULL) {
+        /* verifica che il file non sia vuoto */
+        letto = (int) fread(&intero, sizeof(int), 1, fp);
+        if (letto) {
+            /* memorizza la testa della lista */
+            head = malloc(sizeof(NODO));
+            head->numero = intero;
+            
+            /* la testa della lista diventa l'ultimo nodo letto */
+            previous = head;
+            
+            /* leggi, ad uno ad uno, tutti gli altri nodi */
+            do {
+                /* verifica che il file non sia finito */
+                letto = (int) fread(&intero, sizeof(int), 1, fp);
+                if (letto) {
+                    /* memorizza il nodo corrente */
+                    current = malloc(sizeof(NODO));
+                    current->numero = intero;
+                    
+                    /* collegalo all'ultimo nodo letto */
+                    previous->next = current;
+                    
+                    /* il nodo corrente diventa l'ultimo nodo letto */
+                    previous = current;
+                }
+            } while (letto);
+            
+            /* il file è finito, poni un termine anche alla lista */
+            previous->next = NULL;
+        }
+    }
+    /* chiudi il file e restituisci la testa della lista */
+    fclose(fp);
+    return head;
+}
+
+/* funzione di salvataggio su file binario */
+void salvaBinario (NODO* head) {
+    /* apri il file binario, o creane uno, in scrittura */
+    FILE* fp = fopen("Riepilogo.dat", "wb");
+    
+    /* scrivi, nodo per nodo, tutta la lista nel file */
+    while (head!=NULL) {
+        fwrite(&head->numero, sizeof(int), 1, fp);
+        head = head->next;
+    }
+    /* chiudi il file e conferma la riuscita del salvataggio */
+    fclose(fp);
+    printf("Salvataggio riuscito.\n\n");
+}
+
+/***** MAIN *****/
+int main() {
+    /* inizializza la lista */
+    NODO* head = malloc(sizeof(NODO));
+    head->next = acquisizioneBinaria();
+    
+    int risposta = -1;      // per interazione con l'utente
+    
+    printf("Ciao utente.\n");
+    /* richiedi un'operazione all'utente */
+    do {
+        printf("Che operazione vuoi che svolga?\n");
+        printf("1) Visualizzare lista corrente.\n");
+        printf("2) Inserimento in coda.\n");
+        printf("3) Inserimento ordinato.\n");
+        printf("4) Cancellazione multipla per valore.\n");
+        printf("5) Ordinamento.\n");
+        scanf("%d%*c", &risposta);
+        /* gestisci le operazioni a disposizione dell'utente */
+        if (risposta==1)
+            visualizzaLista(head->next);
+        else
+            if (risposta==2)
+                inserisciCoda3(head);
+            else
+                if (risposta==3)
+                    inserisciOrdinato3(head);
+                else
+                    if (risposta==4)
+                        cancellaMultipla3(head);
+                    else
+                        if (risposta==5)
+                            selection(head->next);
+                        else
+                            if (risposta==0)
+                                printf("Alla prossima!\n");
+                            else
+                                printf("Selezione non valida.\n\n");
+    } while (risposta!=0);
+    
+    /* SALVATAGGIO */
+    salvaBinario(head->next);
+}

@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int esisteminuscola (char *stringa);
+int main(){
+	printf("ciao sono un programma che verifica ricorsivamente l'esistenza di una lettera minuscola in un programma\n");
+	char stringa[50];
+	printf ("inserisci stringa\t");
+	fgets(stringa,50,stdin);
+	stringa[strlen(stringa)-1]='\0';
+	if (esisteminuscola(stringa))
+		printf("esiste almeno un carattere minuscolo nella tua stringa\n");
+		else
+			printf("non esiste alcun carattere minuscolo nella tua stringa\n");
+}
+int esisteminuscola(char *stringa){
+	 int minuscola;
+	if (strlen(stringa)==0)
+		minuscola =0;
+		else 
+			minuscola= (stringa[0]>'a'&& stringa[0]<'z') || esisteminuscola(stringa+1);
+			return minuscola;
+}

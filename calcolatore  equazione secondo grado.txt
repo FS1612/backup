@@ -1,0 +1,45 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+int main ()
+{
+	int a, b, c;
+	float x1, x2, x3, x4, b2, b3;
+	double d, d1;
+printf("inserisci tre valori\n\n");
+scanf("%d", &a);
+scanf("%d", &b);
+scanf("%d", &c);
+//*equazioni incomplete
+if ((b==0)&&(c==0)){
+	printf("equazione monomia\n\n");
+	printf("il risultato dell'equazione %c zero\n\n", 138);
+}
+if((a==0)||(b==0)||(c==0)||(b=c==0))
+	printf("equazione incompleta\n\n");
+	if (c==0){
+		x1=0 ;
+		x2=-(b)/a;
+	printf("le soluzioni sono %f e %f\n\n", x1, x2);
+	exit(0);}
+							
+							if (b==0){
+				
+					if(((a<0)&&(c>0))||((a>0)&&(c<0))){
+						x1= sqrt(-(c/a));
+						x2= - sqrtf(-(c/a));
+					printf("le soluzioni sono %f e %f\n\n", x1, x2);}
+						else ((a>0)&&(b>0)&&(c>0));
+							printf("b e' %d\n\n", b);
+							printf("equazione completa\n\n");
+							b2 = powf(b,2);
+							printf("b2 e' %d\n\n",b2);
+							d = (b*b-(4*a*c));
+							d1= sqrtl(d);
+							printf("d e' %lf\n\n", d);
+							x3= (-b-d1)/2*a;
+							x4= (-b+d1)/2*a;
+							printf("le soluzioni sono %lf e %lf\n\n", x3, x4);
+							exit(0);
+						}
+}

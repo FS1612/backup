@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <stdlib.h>
+int rigaMassima( int numeri[][3], int riga);
+int main(){
+	int righe;
+	printf("ciao sono un programma che calcola la somma massima tra gli elementi di una matrice\n");
+	printf("inserisci il numero delle righe della matrice con 3 colonne\t");
+	scanf("%d",&righe);
+	int interi[righe][3];
+	for( int i=0; i<righe ;i++)
+		for(int j=0; j<3; j++){
+			printf("inserisci numero con indice di riga %d e di colonna %d \t", i, j);
+			scanf("%d", &interi[i][j]);
+	}
+	for (int i=0; i<righe; i++){
+		for (int j=0; j<3; j++)
+			printf("%d\t",interi[i][j]);
+			printf("\n");
+	}
+	printf("la somma massima delle righe %c %d\n", 138, rigaMassima(interi, righe));
+}
+int rigaMassima( int numeri[][3], int riga){
+	int massimo;
+	massimo= numeri[0][0]+numeri[0][1]+numeri[0][2];
+	for (int n=0; n< riga; n++)
+	{
+		if (numeri[n][0]+numeri[n][1]+numeri[n][2]>massimo)
+			massimo=numeri[n][0]+numeri[n][1]+numeri[n][2];
+	}
+	return massimo;
+}
