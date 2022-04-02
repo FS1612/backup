@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+int main(){
+	int pensato;
+	int introdotto; 
+	int giusto;
+	int rotto;
+	int totale;
+	rotto=0;
+	totale=0;
+	giusto=0;
+	srand(time(NULL));
+	pensato=rand()%100+1;
+	do{
+		printf("iserisci un numero\t");
+		scanf("%d",&introdotto);
+		if (introdotto ==-1)
+			printf("gia te sei rotto le scatole dopo %d tentativi, sei popo una sola",totale);
+			else{
+				if(introdotto<0)
+					printf("numero non valido\n");
+					else 
+						if (introdotto>pensato){
+							printf("a bello vola basso\n");
+							totale++;}
+							else
+								if(introdotto<pensato){
+									printf("a coso,come cazzo te chiami,devi alza sto numero\n");
+									totale++;}
+									else
+										if(introdotto==pensato){
+											printf("ohh c'hai fatta finalmente dopo %d tentativi, me stavano a cade le palle\n", totale);
+											giusto=1;}
+						}
+	}
+	while(!rotto &&!giusto);
+}

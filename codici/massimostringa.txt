@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <string.h>
+/* funzione principale */
+int numeroMassimo(char *stringa);
+int main(){
+	/* input */
+	printf("Ciao, sono un programma che legge una stringa "); 
+	printf("e determina il massimo numero contenuto nella stringa.\n"); 
+	char stringa[50];
+	printf("Introduci una bella stringa: ");
+	fgets(stringa, 50, stdin);
+	
+	/* rimuovi \n */
+	stringa[strlen(stringa)-1]='\0';
+	
+	/* invoca la funzione numeroMassimo */
+	/* output */
+	int numero;
+	numero=numeroMassimo(stringa);
+	if(numero==-1)
+		printf("La stringa non contiene caratteri numerici!\n\n");
+	else
+printf("Il massimo numero nella stringa %c %d.\n\n", 138, numero);}
+/* Funzione che riceve come parametro una stringa. La funzione 
+ * restituisce il massimo numero contenuto nella stringa o -1 se 
+ * la stringa non contiene nessun carattere numerico. */
+int numeroMassimo(char *stringa) {
+	int i=0;
+	int numeroAttuale=-1;
+	int numeroMassimo=-1;
+	while(stringa[i] != '\0') {
+		/* il carattere attuale è numerico? */
+		if(stringa[i]>='0' && stringa[i]<='9') {
+			
+			/* primo carattere numerico? */
+			if(numeroAttuale==-1){
+			numeroAttuale = stringa[i]-'0';}
+			else	// se non è il primo devi aggiornare quello precedente
+				{numeroAttuale = numeroAttuale * 10 + (stringa[i]-'0');}
+			/* controlla se hai un nuovo massimo */
+			if(numeroAttuale>numeroMassimo){
+			numeroMassimo = numeroAttuale;} 
+		else // non stiamo guardando un carattere numerico
+			{numeroAttuale = -1;}
+		}
+			i++;		// passa al prossimo carattere
+	}
+	return numeroMassimo;
+}
+
+
+

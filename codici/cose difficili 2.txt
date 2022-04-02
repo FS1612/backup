@@ -1,0 +1,42 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+int main (){
+	float a, b, c, x1, x2;
+	int d;
+	scanf ("%f%f%f", a, b, c );
+	//* equazioni incomplete
+	if (a=0)
+	{printf("l'equazione è di primo grado\n\n");
+	exit(0);}
+	else("a!=0"); {
+		d=sqrtf((b*b)-4*(a*c));
+	printf("il discriminante vale: %d\n\n", d);}
+		if (d!=0)
+			if(d>0){
+			x1= (-b+d)/(2*a); 
+			x2= (-b-d)/(2*a);
+			printf("le soluzioni sono %f e %f\n\n", x1, x2);
+			exit (0);
+			}
+				if(d==0)
+				{
+				x1= (-b+d)/(2*a);
+				x2= (-b-d)/(2*a);
+				printf("le soluzioni sono 2 coincidenti ossia %f e%f\n\n", x1, x2);
+				exit (0);
+				}
+				else {
+				printf("non ci sono soluzioni reali\n\n");
+				exit(0);
+				}
+if ((b=c)==0){
+	printf("la zoluzione è 0");
+	exit (0);}
+else if (c==0)
+{ x1 = 0;
+  x2=(-b)/a;
+  printf("le soluzioni sono: %f e %f\n\n", x1, x2);
+  exit(0);
+}
+}

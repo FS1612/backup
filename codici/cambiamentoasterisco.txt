@@ -1,0 +1,19 @@
+#include <string.h>
+#include <stdio.h>
+void cambianonalfabetici(char*stringa);
+int main(){
+
+	printf("Ciao, sono un programma inutile^2\n "); 
+	char stringa[50];
+	printf("Introduci una  stringa: ");
+	fgets(stringa, 50, stdin);
+	stringa[strlen(stringa)-1]='\0';
+	cambianonalfabetici(stringa);
+printf("la stringa modificata %s \n ", stringa);
+}
+void cambianonalfabetici(char*stringa){
+	for(int i=0; stringa[i]!='\0';i++){
+		if(!((stringa[i]>='A'&&stringa[i]<='Z')||(stringa[i]>='a'&&stringa[i]<='z')))
+			stringa[i]='*';
+	}
+}

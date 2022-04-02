@@ -1,0 +1,35 @@
+#include <stdio.h>
+int distanzaMinima(int sequenza[],int l);
+int main()
+{
+	printf("ciao sono un programma che calcola la distanza tra 2 interi vicini\n");
+	int lunghezza; //* dichiarazione variabile di lunghezza array
+//* richiesta inserimento dati all'utente
+printf("caro utente quanti numeri deve avere la tua sequenza?\t");
+scanf("%d",&lunghezza);
+int interi[lunghezza]; //*dichiarazione array
+for(int i=0; i<lunghezza;i++){
+	printf("inserisci un valore\t");
+	scanf("%d",&interi[i]);
+}
+//* stampa a schermo i risultati della ricerca 
+printf("la distanza minima e' %d \t",distanzaMinima(interi,lunghezza));
+}
+ int distanzaMinima(int sequenza[],int l){
+	 int distanza;
+	 int distanzaMin;
+	 if (sequenza[0]>sequenza[1])
+	 distanzaMin =(sequenza[0]-sequenza[1]);
+	 else 
+			 distanzaMin = (sequenza[1]-sequenza[0]);
+			 for(int j=1;j<l-1;j++)
+			{
+				 if (sequenza[j]>sequenza[j+1])
+					 distanza=(sequenza[j]-sequenza[j+1]);
+					 else 
+			 distanza=(sequenza[j+1]-sequenza[j]);
+			 if (distanzaMin>distanza)
+				 distanzaMin=distanza;
+			}
+	return distanzaMin;
+ }

@@ -1,0 +1,39 @@
+#include <stdio.h>
+int caratteri(int n){/*dichiarare funzioni piu importanti inizialmente*/
+	int l;
+	if(n/10==0)
+		l=1;
+		else 
+			l= 1+caratteri(n/10);
+			return l;
+}
+void stampaArray(int a[], int dim){
+	int i;
+	printf("Array:");
+	for(i=0; i<dim; i++)
+		printf(" %d ",a[i]);
+		printf("\n");}
+
+void convertinumero(int nr[],int n, int d){
+	if(d ==0)
+		nr[d]=n;
+		else{
+			nr[d] = n%10;
+		convertinumero(nr,n/10,d-1);
+			
+		}
+}
+void array(int n){
+	int lungh;
+	lungh=  caratteri(n);
+	int array[lungh];
+	convertinumero(array,n,lungh-1);
+	stampaArray(array,lungh);
+}
+int main(){
+	printf("ciao sono un programma che converte un numero in array\n");
+	int numero;
+	printf("inserisci un numero\t");
+	scanf("%d",&numero);
+	array(numero);
+}

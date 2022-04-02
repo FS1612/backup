@@ -1,0 +1,27 @@
+#include <stdlib.h>
+#include <stdio.h>
+int paripositivo(int array[],int lunghezza);
+int main(){
+	printf("caro utente questo è un programma che verifica ricorsivamente se in un array esiste un numero pari ed uno positivo!\n");
+	int l;
+	printf("inserisci una lunghezza per il tuo array di numeri\t");
+	scanf("%d",&l);
+	int interi[l];
+	for(int i=0; i<l; i++){
+		printf("inserisci un numero nella posizione %d\t",i);
+		scanf("%d",&interi[i]);
+	}
+	if(paripositivo(interi,l)==1)
+		printf("esiste almeno una coppia di numeri pari e positivi consecutivi\n");
+		else
+			printf("non esiste nessuna coppia di numeri pari e positivi consecutivi\n");
+}
+int paripositivo(int array[],int lunghezza){
+	int contiene;
+if (lunghezza<=1){
+	contiene=0;
+	}
+	else
+		contiene =(array[0]>=0 && array[1]%2==0)||(array[1]>=0 && array[0]%2==0)||(paripositivo(array+1, lunghezza-1));
+		return contiene;
+}

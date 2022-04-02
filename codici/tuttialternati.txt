@@ -1,0 +1,27 @@
+#include <stdlib.h>
+#include <stdio.h>
+int tuttialternati(int array[],int lunghezza);
+int main(){
+	printf("caro utente questo è un programma che verifica ricorsivamente se in un array tutti i numeri siano alternati!\n");
+	int l;
+	printf("inserisci una lunghezza per il tuo array di numeri\t");
+	scanf("%d",&l);
+	int interi[l];
+	for(int i=0; i<l; i++){
+		printf("inserisci un numero nella posizione %d\t",i);
+		scanf("%d",&interi[i]);
+	}
+	if(tuttialternati(interi,l)==1)
+		printf("sono tutti alternati\n");
+		else
+			printf("non sono alternati\n");
+}
+int tuttiaternati(int array[],int lunghezza){
+	int alternati;
+	if  (lunghezza=0) {
+		alternati=1;
+	}
+	else 
+		alternati= array[0]<0 && array[1]>0)||(array[1]<0 && array[0]>0)||(tuttialternati(array+1,lunghezza-1)){;
+	return alternati;
+}

@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct Libro{
+	char nomeLibro[100];
+	char nomeAutore[100];
+	char nomeEditore[100];
+	int annoPubblicazione;
+}libro;
+typedef struct lista{
+	libro elementi[50]; //* creo un array di dimensione 50 chiamato elementi , formato da strutture tipo libro
+	int numeroLibri;
+}lista;
+lista inserimentoLibri();
+void stampaElenco(lista list);
+void cercaLibrovecchio(lista list);
+void cercaAutore(lista list, char autore[100]);
+int main(){
+	int scelta;
+	lista l;
+	do{
+		printf("\ncaro utente scegli cosa deve fare questo programma\n");
+		printf("[0] termina programma\n");
+		printf("[1] inserisci libro\n");
+		printf("[2] cerca libro piu' vecchio\n");
+		printf("[3] cerca autore\n");
+		printf("[4] stampa libri\n");
+		scanf("%d\t",&scelta);
+	if (scelta<0||scelta>4)
+		printf("fatti meno canne\n");
+		if(scelta==0)
+			printf("annamo bene, proprio bene\n");
+			//*valutazione funzione per inserimento libro
+			if(scelta==1){
+				l=inserimentoLibri();
+				stampaElenco(l);
+			}
+			//*valutazione funzione per ricerca libro + vecchio
+			if(scelta==2){
+				fflush(stdin);
+				cercaLibrovecchio(l);
+				fflush(stdin);
+			}
+			//*valutazione funzione per ricerca autore
+			if(scelta==3){
+				fflush(stdin);
+				char autore[100];
+				printf("\ninserisci il nome autore da ricercare:\t");
+				gets(autore);
+				cercaAutore(l, autore);
+				fflush(stdin);
+			}
+			//*valutazione funzione di stampa di tutti i libri
+			if(scelta==4){
+				stampaElenco(l);
+			}
+	}
+	while(scelta!=0);
+}
+lista inserimentoLibri(){
+	lista list;//* creo variabile di tipo lista e la nomino list
+	printf("quanti libri vuoi inserire bro?\n");
+	scanf("%d\t",&list.numeroLibri);//*assegno al valore numeroLibri all'interno dela struct lista chiamata list, un numero pari al totale dei libri da inserire
+	fflush(stdin);
+	for (int i=0; i<=list.numeroLibri; i++){
+		printf("inserisci dettagli libro\n");
+		printf("inserisci il nome del libro:\t");
+		gets(list.elementi[i].nomeLibro);//* assegnazione nome alla variabile nomeLibro dell'elemento[i] della variabile list di tipo lista
+		printf("\ninserisci il nome di chi ha scritto il libro:\t");
+		gets(list.elementi[i].nomeAutore);
+		printf("\ninserisci il nome della casa editrice:\t");
+		gets(list.elementi[i].nomeEditore);
+		printf("\ninserisci l'anno di pubblicazione del libro:\t");
+		scanf("%d",&list.elementi[i].annoPubblicazione);
+		fflush(stdin);//*eliminazione dati da memoria
+	}
+	return list;
+}
+void stampaElenco(lista list){
+	for (int i=0; i<=list.numeroLibri; i++){
+		printf("titolo libro %d:%s\t", i+1,list.elementi[i].nomeLibro);
+		printf("\nautore libro %d:%s\t", i+1,list.elementi[i].nomeAutore);
+		printf("\neditore libro %d:%s\t",i+1,list.elementi[i].nomeEditore);
+		printf("\nanno di pubblicazione libro %d: %d\t",i+1,list.elementi[i].annoPubblicazione);
+	}
+}
+void cercaLibrovecchio(lista list){
+	libro vecchio= list.elementi[0];
+	int indiceVecchio=0;
+	for(int i=0;i<=list.numeroLibri;i++){
+		if(vecchio.annoPubblicazione>list.elementi[i].annoPubblicazione)
+			vecchio=list.elementi[i];
+			indiceVecchio=i;
+	}
+	printf("il libro piu' vecchio e': il %d\t", indiceVecchio+1);
+	printf("il suo nome %c :\t%s;\n scritto da:\t %s; \npubblicato da:\t %s\n; \nanno pubblicazione:\t%d\n", 138, vecchio.nomeLibro, vecchio.nomeAutore, vecchio.nomeEditore,vecchio.annoPubblicazione);
+}
+void cercaAutore(lista list,char autore[]){
+	libro libroCercato =list.elementi[0];
+	for(int i=0;i<=list.numeroLibri;i++){
+		if(strcmp(libroCercato.nomeAutore,autore)==1)
+			libroCercato=list.elementi[i];
+	}
+	printf("il libro cercato e':\n");
+	printf("il suo nome %c :\t%s;\n scritto da:\t %s\n; pubblicato da:\t %s; \nanno pubblicazione:\t%d\n", 138, libroCercato.nomeLibro, libroCercato.nomeAutore, libroCercato.nomeEditore,libroCercato.annoPubblicazione);
+}

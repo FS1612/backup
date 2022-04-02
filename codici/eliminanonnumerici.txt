@@ -1,0 +1,29 @@
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+void modificastringa(char*stringa);
+int main(){
+
+	printf("Ciao, sono un programma inutile^2\n "); 
+	char stringa[50];
+	printf("Introduci una bella stringa: ");
+	fgets(stringa, 50, stdin);
+	stringa[strlen(stringa)-1]='\0';
+	modificastringa(stringa);
+printf("la stringa modificata %s \n ", stringa);
+}
+void modificastringa(char*stringa){
+	int j;
+	int i=0;
+	while(stringa[i]!='\0'){
+		if(!(stringa[i]>='0'&&stringa[i]<='9')){
+			j=i;
+			while(stringa[j]!='\0'){
+				stringa[j]=stringa[j+1];
+				j++;
+			}
+		}
+	else
+		i++;
+	}
+}

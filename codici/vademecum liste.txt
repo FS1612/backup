@@ -1,0 +1,328 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct dataNascita{
+	int giorno;
+	int mese;
+	int anno;
+}DATA;
+typedef struct persona{
+	char nome[20];
+	char cognome[20];
+	DATA data;
+}PERSONA;
+typedef struct nodo{
+	PERSONA p;
+	struct nodo*next;
+}NODO;
+int verifica(char*stringa1,char*stringa2);
+NODO*cancellaValore(NODO*head);
+void scambia(NODO*nodo1,NODO*nodo2);
+void ordina(NODO*head);
+NODO*eliminaCoda(NODO* head);
+NODO*inserisciTesta(NODO*head);
+NODO*acquisizione();
+void salvataggio(NODO* head);
+NODO*eliminaTesta(NODO* head);
+void visualizzaData(DATA*d);
+void visualizzaPersona(PERSONA*);
+void visualizza(NODO*head);
+NODO*inserisciCoda(NODO*head);
+void leggiData(DATA*d);
+void leggiPersona(PERSONA*p);//*ricevo in input una variabile di tipo persona
+int main(){
+	NODO* head =acquisizione(); //* head assume tutti i valori letti da fz acquisizione
+		int richiesta=-1;
+	while(richiesta!=0){
+		printf("ciao sono un programma che gestisce una lista di persone\n");
+		printf("come posso aiutarti?\n");
+		printf("1->inserisci nuova persona\n");
+		printf("2->elimina la prima persona \n");
+		printf("3->stampa lista\n");
+		printf("4->inserisci una persona in testa alla lista\n");
+		printf("5->cancella la persona in coda alla lista\n");
+		printf("6->ordina la lista\n");
+		printf("7->cancella persona particolare\n");
+		printf("0->esci e salva lista\n");
+		scanf("%d%*c", &richiesta);//*scansione di un intero e scansione a vuoto per liberare buffer(%*c) input
+		if(richiesta==1)
+			head = inserisciCoda(head);
+			else  if(richiesta==2)
+			head=eliminaTesta( head);
+			else  if(richiesta==3){
+			visualizza(head);}
+			else if(richiesta==4)
+			head = inserisciTesta(head);
+			else if(richiesta==5)
+			head = eliminaCoda(head);
+			else if(richiesta==6)
+			 ordina(head);
+			 else if(richiesta==7)
+			 head=cancellaValore(head);
+			  else if(richiesta==8)
+			 ricerca(head);
+			else  if(richiesta!=0)
+			printf("prova di nuovo\n");
+		else {
+			printf("alla prossima!\n");
+			salvataggio(head);//*passo alla funzione salvataggio l'indirizzo di head cosi che possa salvare in un file tutti i valori scritti nella lista
+		}
+		
+	}
+}
+void leggiData(DATA*d){
+	printf("inserisci la data di nascita di questa persona\n");
+	printf("inserisci il giorno\t");
+	scanf("%d",&d->giorno);
+	printf("inserisci il mese\t");
+	scanf("%d",&d->mese);
+	printf("inserisci l'anno\t");
+	scanf("%d",&d->anno);
+}
+void leggiPersona(PERSONA*p){
+	printf("inserisci dettagli persona\n");
+	printf("inserisci il nome della persona che vuoi aggiungere\t");
+	fgets(p->nome,20,stdin);
+	printf("inserisci il cognome della persona che vuoi aggiungere\t");
+	fgets(p->cognome,20,stdin);
+	leggiData(&(p->data));
+}
+NODO*inserisciCoda(NODO* head){
+	NODO* nuovonodo=malloc(sizeof(struct nodo));
+	leggiPersona(&(nuovonodo->p));
+	nuovonodo->next=NULL;
+	//* se la testa è NULL allora copia l'indirizzo di nuovonodo in head
+	if(head==NULL)
+		head=nuovonodo;
+		else{
+			NODO*nodo=head;
+			while(nodo->next!=NULL){
+				nodo=nodo->next;//*per scorrere  la lista
+			}
+			nodo->next=nuovonodo; //*collega il nuovo nodo all'ultimo elemento
+		}
+		return head;
+}
+void visualizzaData(DATA*d){
+	printf("nato nel giorno:\t%2d\n",d->giorno);
+	printf("il mese numero:\t%2d\n",d->mese);
+	printf("anno:\t%2d\n",d->anno);
+	
+}
+void visualizzaPersona(PERSONA*p){
+	printf(" ecco i dettagli della persona\n");
+	printf("il suo nome %c : \t%s",138,p->nome);
+	printf("il suo cognome %c : \t%s",138,p->cognome);
+	visualizzaData(&(p->data));
+}
+void visualizza(NODO*head){
+	if(head==NULL)
+		printf("la lista risulta vuota\n");
+	else{
+		printf("ecco la lista\n");
+		while(head!=NULL){//*itera finche head assume valori diversi da 0
+			visualizzaPersona(&(head->p));//*passa l'indirizzo di memoria della struttura da leggere a visualizzapersona
+			head=head->next;//*ad ogni ciclo aggiorna head
+			}
+		}
+}
+NODO*eliminaTesta(NODO* head){
+	if(head==NULL) //*se la lista è vuota non si può cancellare nulla 
+		printf("nulla da cancellare\n");
+		else{
+			NODO*temp=head; 
+			//* assegno alla variabile temp il valore di head in modo tale che il valore di head possa essere cancellato anche dopo inserito al suo interno i valori del secondo nodo
+			head=head->next;
+			free(temp);//*dealloco il nodo temp al cui interno risiedono i valori di head
+		}
+	return head;
+}
+void salvataggio(NODO* head){
+	FILE*fp=fopen("persone.dat","wb"); //*apertura file binario in sola scrittura, se non esiste viene creato o se è impossibile crearlo, si perde tutto
+	//*se il file è stato creato correttamente, non ho null come ritorno
+	if(fp!=NULL){
+		while(head!=NULL){//*percorri la lista finche ci sono elementi
+		//*          ( indirizzo oggetto da scrivere, dimensione oggetto da scrivere, quantità, puntatore del file su cui scrivere)
+			fwrite(&(head->p),sizeof(PERSONA),1,fp);
+			head=head->next;//*passa al prossimo nodo
+		}
+		printf("salvataggio riuscito\n");
+	}
+	else
+		printf("salvataggio non riuscito\n");
+}
+NODO*acquisizione(){
+	FILE*fp=fopen("persone.dat","rb"); //*apertura di un file binario in sola lettura, se file non esiste restituisce null. FILE sempre maiuscolo
+	NODO*head=NULL;//*inizializzazione testa della lista a null
+	NODO*prec;//*variabile per lo scorrimento della lista
+	NODO*corrente;//*variabile per lo scorrimento della lista
+	PERSONA p;//*variabile per salvataggio temporaneo di campi dati dei nodi
+	int letto; //* verifica se la fread ha letto qualcosa , in tal caso letto>0, altrimenti vale 0.
+	//* se letto vale 0 non fare nulla
+	if(fp!=NULL){//*se file esiste allora esegui operazioni di lettura dati
+	letto=fread(&p,sizeof(PERSONA),1,fp);
+	/*fread riceve come parametri il puntatore alla variabile in cui effettuare il salvataggio dei dati letti da file, la loro dimensione, la quantita dei dati di quel tipo da leggere, il puntatore al file dove leggere i dati
+		restituisce il numero dei dati letti da file e li salva in variabile letto*/
+		if(letto){
+			//*se hai letto almeno un dato, procedi con l'allocazione di memoria nell'heap per un nuovo nodo e salva nel campo dati del nuovo nodo i dati letti.
+			head=malloc(sizeof(NODO));
+			head->p=p;//*copia i dati di p nel campo dati p di head
+			//*per collegare altri nodi alla lista devo tener conto del nodo attuale per cuo lo salvo nella variabile prec, cosi da considerarlo per primo
+			prec=head;
+			//*adesso itera la lettura dei nodi successivi
+			do{
+				letto=fread(&p,sizeof(PERSONA),1,fp); //* prova a leggere nuovi dati da file 
+				if(letto){
+					//*alloca nell' heap un nuovo nodo per salvare i dati che hai appena letto
+					corrente=malloc(sizeof(NODO));
+					//*salva i dati letti nel campo dati del nodo appena creato
+					corrente->p=p;
+					//*collega il nuovo nodo alla lista, inserendo il puntatore al nuovo nodo nel campo puntatore del vecchio nodo
+					prec->next=corrente;
+					//*per proseguire la lettura occorre aggiornare i nodi facendo diventare il nodo precedente = a quello corrente
+					prec=corrente;
+				}
+				//* se non leggi piu nulla allora il file è terminato e devi settare il puntatore del nodo precedente su null
+				else 
+					prec->next=NULL;
+			}
+			while(letto);//*itera il do fintanto che letto>0
+		}
+	}
+	else
+		printf("Non %c possibile aprire il file!\n", 138);
+	return head;
+}
+NODO*inserisciTesta(NODO*head){
+	NODO* nuovonodo=malloc(sizeof(NODO));
+	printf("inserisci la persona in testa alla lista");
+	leggiPersona(&(nuovonodo->p));
+	//*una volta creato il nuovo nodo collegagli in coda il vecchio "primo"nodo settandogli il campo puntatore uguale al vecchio nodo
+	nuovonodo->next=head;
+	return nuovonodo;
+}
+NODO*eliminaCoda(NODO* head){
+	//*verifica se la lista è vuota
+	if(head==NULL)
+		printf("nulla da cancellare\n");
+		else{
+			//* la lista ha un solo nodo
+			if(head->next==NULL){
+				/*al contrario della cancellazione in testa in cui head mi serviva sia per deallocare il nodo correante sia per memorizzare al suo interno l'indirizzo della 
+				nuova testa, motivo per cui era necessaria la creazione di un nodo temporaneo per il salvataggio dell'attuale testa per deallocarla correttamente,
+				 * qui posso deallocarlo direttamente non avendo alcun nodo successivo da collegare*/
+				free(head);
+				head=NULL;
+				printf("lista vuota\n");
+			}
+			else{//*la lista ha 2 elementi
+			//*se la lista ha + di un elemento allora occorre scorrerla per trovare gli ultimi due nodi. 
+				NODO*corrente;
+				NODO*suc;
+				corrente=head;
+				suc=head->next;
+				while(suc->next!=NULL){//*verifica se la lista ha piu di 2 elementi, in tal caso successivo->next memorizza un indirizzo altrimenti è null,
+				//* se non è null aggiorna i nodi facendo assumere a corrente il valore del vecchio nodo successivo e a successivo il nodo immediatamente successivo
+					suc=suc->next;
+					corrente=corrente->next;
+				}
+				//* se sei qui allora hai trovato gli ultimi 2 nodi adesso puoi deallocare l'ultimo e salvare nel campo next del penultimo NULL
+					free(suc);
+					corrente->next=NULL;}
+
+		}
+		return head;
+}
+void scambia(NODO*nodo1,NODO*nodo2){
+	PERSONA p;
+	p=nodo1->p;
+	nodo1->p=nodo2->p;
+	nodo2->p=p;
+}
+
+/*le funzioni di ordinamento non ritornano nulla perche la struttura dei puntatori e il numero di nodi non varia,per cui head non  muta mai, si scambiano solo i campi dati*/
+void ordina(NODO*head){
+	//* selection sort scorre la lista da sx a dx creando di fatto 2 porzioni della lista, la prima gia ordinata e la seconda ancora da ordinare
+	NODO* primo;//* variabile di tipo nodo* che contiene il valore del primo nodo
+	NODO*successivo; //*variabile di tipo nodo* che contiene il valore del secondo nodo
+	NODO*minimo;//*ricerca il minimo nella parte di lista ancora da ordinare
+	//* poiche all'inizio devi ancora ordinare l'intera lista
+	primo=head;
+	if(primo==NULL)
+		printf("lista vuota,nulla da ordinare\n");
+		//*se la lista contiene un solo nodo, ossia se primo->next ==null, allora la lista è gia ordinata
+		else{
+			while(primo->next!=NULL){
+				/*scoori la lista fino ad ultimo nodo, se la lista ha un solo nodo, la condizione è subito falsa e le istruzioni non vengono
+				  * eseguite. questo ciclo non funziona se la lista è vuota (non si puo accedere al campo della struttura puntata da primo se primo =null)
+				  * per cui è necessario chiedersi a priori se contiene elementi, o chiedere come pre-condizione
+			 * la presenza di almeno un nodo*/
+			 minimo =primo; //*assumo che il primo nodo sia gia il minore tra tutti e poi verifico sul resto della lista
+			 for(successivo=primo->next; successivo!=NULL;successivo=successivo->next)/* ciclo che itera la verifica sul nodo successivo(primo->next)
+			  * finche questo non assume valore null viene aggiornato con il suo successivo*/
+			  if((successivo->p.data.anno<primo->p.data.anno)||(successivo->p.data.mese<primo->p.data.mese)||(successivo->p.data.giorno<primo->p.data.giorno))
+				  minimo=successivo;
+				  //*scambia valori di minimo e successivo
+				  scambia(minimo,primo);
+				  primo=primo->next;//* prosegui nella lista 
+			}
+			printf("ecco la lista ordinata\n");
+			visualizza(head);
+		}
+}
+int verifica(char*stringa1,char*stringa2){
+	int verificato;
+	verificato=strcmp(stringa1,stringa2);
+	return verificato;
+}
+NODO*cancellaValore(NODO*head){
+	//*inserimento specifiche da cancellare
+	NODO*prec;
+	NODO*suc;
+	char nome[20];
+	char cognome[20];
+	printf("inserisci nome della persona da cancellare\t");
+	fgets(nome,20,stdin);
+	printf("inserisci cognome della persona da cancellare\t");
+	fgets(cognome,20,stdin);
+	nome[strlen(nome)-1]='\0';
+	cognome[strlen(cognome)-1]='\0';
+	int verificaNome;
+	int verificaCognome;
+	verificaNome=verifica(head->p.nome,nome);
+	verificaCognome=verifica(head->p.cognome,cognome);
+	if(head==NULL)
+		printf("nulla da cancellare\n");
+		else{
+			//*esiste almeno un nodo 
+			if(verificaNome&&verificaCognome){
+				//*cancellazione testa
+				NODO*nodo1=head;//*variabile che assume il valore di head che poi verra cancellato
+				head=head->next;
+				free(nodo1);
+				printf("cancellazione effettuata\n");
+			}
+			else{
+				int cancellato=0;
+				//*ricerca il nodo
+				prec=head;
+				suc=head->next;
+				while(suc!=NULL&&!cancellato){
+							if(verificaNome&&verificaCognome){
+								prec->next=suc->next;
+								free(suc);
+								cancellato=1;
+								printf("cancellazione effettuata\n");
+					}
+					else{
+						prec=suc;
+						suc=suc->next;
+					}
+				}
+				if(!cancellato)
+					printf("non esiste una persona con nome %s e cognome %s\n",nome,cognome);
+			}
+		}
+	return head;
+}

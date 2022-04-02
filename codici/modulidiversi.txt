@@ -1,0 +1,48 @@
+#include <stdio.h>
+/*Specifiche:
+ * input: 2 sequenze di numeri 
+ * pre-condizioni: l1 è la lunghezza del primo array di numeri, l2 del secondo 
+ * output: un intero modulodiv
+ * post-condizioni: modulodiv ha valore 1 se nessun numero ha modulo uguale, 0 altrimenti
+ * problema: verifica universale */
+ int moduloDiverso(int sequenza[],int l);
+ int main()
+ {
+printf("ciao sono un programma che verifica se in un' array esiste tutti i numeri hanno modulo diverso\n");
+	 int lunghezza;//* variabile che contiene la lunghezza
+	 printf("quanti numeri vuoi nella sequenza?\t");
+	 scanf("%d",&lunghezza);
+	 int interi[lunghezza];//*dichiarazione array
+	 for(int i=0; i<lunghezza; i++){
+		 printf("inserisci un numero\t");
+		 scanf("%d",&interi[i]);
+	 }
+	  //* istruzioni di stampa
+	 if (moduloDiverso(interi, lunghezza)==1)
+		 printf("nella sequenza nessun numero ha modulo uguale\n");
+		 else
+			 printf("piu di un numero ha lo stesso modulo\n");
+ }
+ int moduloDiverso(int sequenza[], int l){
+	 int j; //*variabile contatore
+	 int n; //*variabile contatore
+	 int modulo;
+	 modulo=1;
+	 j=0;
+	 for(int i=0; i<l; i++){
+		 if (sequenza[i]<0)
+			 sequenza[i]=-sequenza[i];
+	 }
+	 while( j<l-1&&modulo){
+		 n=j+1;
+		 { while (n<l&&modulo)
+			 if(sequenza[j]==sequenza[n])
+				 modulo=0;
+
+				 else 
+		 n++;}
+		 j++;
+	 }
+	 return modulo;
+ }
+ 

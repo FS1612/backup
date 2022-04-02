@@ -1,0 +1,49 @@
+/*specifiche 
+input : un array di numeri
+precondizioni: l è lunghezza di array
+output : un intero contiene
+postcondizioni:contiene è uguale a 1 se ogni tripla ha un numero pari e uno dispari, 0 altrimenti
+problema: ricerca esistenziale*/
+#include <stdio.h>
+#include <stdlib.h>
+int triplePariDispari(int numeri, int lunghezza);
+int main(){
+	//* presentazione programma
+	printf("sono un programma che verifica se tutte le triple di un array contengono un numero pari e uno dispari\n");
+	//*dichiarazioni variabili
+	int l;//*variabile lunghezza dell'array
+	//*richiesta inserimento dati
+	printf("caro utente quanti numeri vuoi nell'array?\t");
+	scanf("%d",&l);
+	int interi[l];//*dichiarazione array di numeri
+	int i; //*variabile contatore
+	for(i=0;i<l;i++){//*esegui il comando di stampa e di scansione fintanto che non giungi a l
+		printf("inserisci un numero\t");
+		scanf("%d",&interi[i]);
+	}
+	//*stampa risultati
+	if (triplePariDispari(interi,l))//*richiamo funzione
+		printf("ogni tripla contiene un numero pari e uno dispari\n");
+	else
+		printf("ci sono delle triple che non contengono sia un un numero pari che uno dispari\n");
+}
+
+	int triplePariDispari(int numeri, int lunghezza)
+	{
+		int contiene;//*intero che conterrà 1 se la condizione non è verificata,0 altrimenti
+		int i,j ;
+		contiene=1;//*inizialmente ogni tripla contiene un numero pari e uno dispari
+		i=0;//*variabile contatore
+		while(i<lunghezza-3&&contiene){//* se la condizione è verificata controlla che le triple non siano formate da soli pari o da soli dispari
+			if((numeri[i]%2==0&&numeri[i+1]%2==0&&numeri[i+2]%2==0)||(numeri[i]%2!=0&&numeri[i+1]%2!=0&&numeri[i+2]%2!=0)
+			contiene=0;
+			else 
+				i++;//* procedi con il prossimo numero
+		}
+			return contiene;
+	}
+
+
+
+
+

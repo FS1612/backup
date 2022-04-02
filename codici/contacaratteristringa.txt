@@ -1,0 +1,28 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+int occorrenze(char *stringa, char carattere);
+int contacaratteri(char *stringa, char carattere, int indice);
+int main(){
+	printf("sono un programma che conta quante volte viene ripetuto un carattere nella stringa\n");
+	char stringa[50];
+	printf("iserisci una stringa\t");
+	fgets(stringa,50,stdin);
+	stringa[strlen(stringa)-1]='\0';
+	char carattere;
+	printf("inserisci carattere da cercare\t");
+	scanf("%c",&carattere);
+	printf("nella stringa il carattere %c compare %d volte\n", carattere, occorrenze(stringa, carattere));
+}
+int contacaratteri(char*stringa, char carattere,int indice){
+	int numero;
+	if (strlen(stringa)==indice)
+		numero =0;
+		else 
+			numero=(stringa[indice]==carattere)+contacaratteri( stringa,carattere, indice+1);
+			return numero;
+}
+int occorrenze( char *stringa, char carattere){
+	return contacaratteri(stringa, carattere, 0);
+	
+}

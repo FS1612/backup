@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int distanzanumeri(char *stringa);
+int main()
+{
+	char sequenza[50];
+	printf("caro utente iserisci caratteri ?\n");
+	fgets(sequenza,50,stdin);
+	sequenza[strlen(sequenza)-1]='\0';
+	if (distanzanumeri(sequenza)!=0){
+		printf("la distanza tra due numeri %c %d\n", 138, distanzanumeri(sequenza));}
+		else
+			printf("nella stringa non ci sono ripetizioni\n");
+}
+int distanzanumeri(char *sequenza){
+	int differenza=-1;
+	int distanzaattuale;
+	int numero;
+	int finale=-1;
+	int i=0;
+	while( sequenza[i] !='\0'){
+		if (sequenza[i]>='0'&& sequenza[i]<='9'){
+			numero=sequenza[i]-'0';
+			if (finale==-1){
+				if (numero>finale)
+					distanzaattuale=(numero-finale);
+					else
+						distanzaattuale=(finale-numero);
+						if (distanzaattuale>differenza)
+							differenza=distanzaattuale;
+			}
+			finale=numero;
+		}
+		i++;
+	}
+	return differenza;
+}

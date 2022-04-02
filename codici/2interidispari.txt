@@ -1,0 +1,37 @@
+/*Specifiche
+ * input: una sequenza di interi
+ * pre condizioni: l è la lungezza della sequenza
+ * output: un intero contiene
+ * postcondizioni: contiene vale uno se almeno una tripla della sequenza contiene 2 dispari
+ * problema: ricerca esistenziale*/
+ #include <stdlib.h>
+ #include <stdio.h>
+ int triple2dispari(int sequenza[],int lunghezza);
+ int main(){
+	 printf("sono un programma che verifica se almeno una tripla della sequenza contiene 2 numeri dispari\n");
+	 int l;
+	 printf("inserisci una lunghezza\t");
+	 scanf("%d",&l);
+	 int interi[l];
+	 for(int i=0; i<l;i++){
+		 printf("inserisci numero\t");
+		 scanf("%d",&interi[i]);
+	 }
+	 if(triple2dispari(interi,l)==1)
+		 printf("istanza verificata\n");
+		 else
+			 printf("instanza negativa\n");
+ }
+ int triple2dispari(int sequenza[],int lunghezza){
+	 int contiene;
+	 int i;
+	 contiene =0;
+	 i =0;
+	 while(i<=lunghezza-3&&!contiene){
+		 if((sequenza[i]%2==0 && sequenza[i+1]%2!=0 && sequenza[i+2]%2!=0)||(sequenza[i]%2!=0 && sequenza[i+1]%2!=0 && sequenza[i+2]%2==0)||(sequenza[i]%2!=0 && sequenza[i+1]%2==0 && sequenza[i+2]!=0))
+			 contiene =1;
+			 else 
+				 i++;
+	 }
+	 return contiene;
+ }

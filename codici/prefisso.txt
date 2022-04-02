@@ -1,0 +1,48 @@
+#include <stdio.h>
+/*Specifiche:
+ * input: 2 sequenze di numeri 
+ * pre-condizioni: l1 è la lunghezza del primo array di numeri, l2 del secondo 
+ * output: un intero uguali
+ * post-condizioni: uguali ha valore 1 se s è prefisso di t, alrimenti 0
+ * problema: verifica */
+ int prefisso(int sequenza[],int l , int seq[], int quanti) ;
+ //* funzione principale 
+int main()
+{ printf("ciao sono un programma che verifica se una sequenza e'  prefisso di un altra\n");
+int lunghezza1;//*variabile che contiene la lunghezza del primo array
+printf("quanti numeri vuoi nel primo array?\t");
+scanf("%d",&lunghezza1);
+int interi1[lunghezza1];//*dichiarazione primo array
+for(int i=0; i<lunghezza1; i++){//* scansione numeri array
+	printf("inserisci un numero\t");
+	scanf("%d",&interi1[i]);
+}
+int lunghezza2;//* variabile che contiene la lunghezza del secondo array
+printf("quanti numeri vuoi nel secondo array?\n");
+scanf("%d",&lunghezza2);
+int interi2[lunghezza2];//* dichiarazione secondo array
+for(int j=0; j<lunghezza2; j++){//* scansione valori secondo array
+	printf("inserisci un numero\n");
+	scanf("%d",&interi2[j]);
+}
+//* opzioni di stampa
+if(prefisso(interi1, lunghezza1, interi2, lunghezza2)==1)
+	printf("il primo array %c un prefisso\n",138 );
+	else 
+		printf("il primo array non %c un prefisso\n", 138);
+}
+ int prefisso(int sequenza[],int l , int seq[], int quanti)
+ {
+	 int prefisso;
+	 int i=0;
+	 if(l>quanti)
+		 prefisso=0;
+		 else
+			 prefisso =1; 
+	 while ( i<l&& prefisso)
+		if (seq[i]!=sequenza[i])
+			 prefisso=0;
+			 else 
+				 i++;
+	 return prefisso;
+ }

@@ -1,0 +1,23 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+int main (){
+	float a, b, c, d, x1, x2;
+	//* immissione numeri
+	printf("ciao utente, introduci i coefficienti.\n");
+	scanf("%f", &a);
+	scanf("%f", &b);
+	scanf("%f", &c);
+	//* risoluzione 
+	d =  sqrtf((b*b )-4*(a* c));
+	printf("d equivale a : %f\n", d);
+	if (d < 0)
+		printf("l'equazione non ha risultati reali");
+		else if (d==0)
+			printf("l'equazione ha 2 risultati coincidenti cioè %f\n", x1);
+			else {
+	x1 = (-b+d)/(2*a);
+	x2 = (-b-d)/(2*a);
+	printf("\nle soluzioni dell'equazione di secondo grado sono %f e %f\n", x1, x2);
+	}
+}

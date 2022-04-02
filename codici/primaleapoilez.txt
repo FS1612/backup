@@ -1,0 +1,48 @@
+#include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+void primaleapoilez(char*stringa);
+int main(){
+	printf("ciao sono un programma che letta un astringa in input la trasforma mettendo prima a e poi z\n");
+	char stringa[50];
+	printf("caro utente inserisci dei caratteri\n");
+	fgets(stringa,50,stdin);
+	stringa[(strlen(stringa)-1)]='\0';
+	 primaleapoilez(stringa);
+	printf("la stringa modificata %c %s",138,stringa);
+}
+void primaleapoilez(char*stringa){
+	int i,j;
+	i=0;
+	j=strlen(stringa);
+	char carattere;
+	while(i<j){
+		//* controlla le i da sinistra a destra per vedere se sono solo a
+		if(stringa[i]=='a')
+			i++;
+			else{
+				if(stringa[j]!='a')
+					j--;
+					else{carattere=stringa[i];
+						stringa[i]=stringa[j];
+						stringa[j]=carattere;
+					}
+			}
+	}
+	//*controlla le z 
+	while(i<j){
+		//* controlla le i da sinistra a destra per vedere se sono solo z
+		if(stringa[j]=='z')
+			i++;
+			else{
+				if(stringa[j]!='z')
+					j--;
+					else{carattere=stringa[i];
+						stringa[i]=stringa[j];
+						stringa[j]=carattere;
+					}
+			}
+	}
+	
+}

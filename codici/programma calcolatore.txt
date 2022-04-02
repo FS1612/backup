@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main(void)
+{
+	int a, b ;
+	int c ;
+	int d ;
+printf("digita 2 numeri\n\n");
+printf("immetti il primo numero\n");
+scanf("%d", &a) ;
+printf("immetti il secondo numero\n");
+scanf("%d", &b);
+/* calcola la somma */
+c = a + b ;
+/* stampa la somma */
+printf("la somma di %d e %d = %d\n", a, b, c);
+/*calcola la differenza*/
+c = a - b ;
+/*stampa la differenza*/
+printf("la differenza di %d e %d = %d\n", a, b, c);
+/*calcola il prodotto*/
+c = a * b;
+/*stampa il prodotto*/
+printf("il prodotto di %d e %d = %d\n", a, b, c);
+/*calcola il quoziente*/
+c = a / b ;
+/*stampa quoziente*/
+printf("il quoziente di %d e %d =\d\n", a, b, c);
+/*calcola la media*/
+c = a + b ;
+d = c / 2;
+/* stampa la media*/
+printf("la media tra %d e %d = %d\n", a, b, d);
+/*calcola il numero successivo*/
+c = a + b ;
+d = c + 1 ;
+/*stampa il successivo*/
+printf("il successico di %d = %d\n", c, d);
+/*calcola il precedente*/
+c = a + b ;
+d = c - 1;
+/*stampa il precedente*/
+printf("il precedente di %d = %d\n\n", c, d);
+
+printf("questi sono i risultati\n");
+exit (0) ;
+}

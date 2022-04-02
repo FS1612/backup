@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdio.h>
+#include <string.h>
+void verificadoppiastringa();
+int doppiastringa(char *sequenza);
+int main()
+{
+	char sequenza[50];
+	printf("caro utente iserisci caratteri ?\n");
+	fgets(sequenza,50,stdin);
+	sequenza[strlen(sequenza)-1]='\0';
+	if (doppiastringa(sequenza)==1){
+	printf("la stringa %c costituita da 2 sottostringhe uguali\n", 138);}
+		else
+			printf("nella stringa non ci sono ripetizioni\n");
+verificadoppiastringa();
+}
+int doppiastringa(char *sequenza){
+	int costituita ;
+	int i;
+	int lunghezza; 
+	i=0;
+	costituita=1;
+	lunghezza= strlen(sequenza);
+	if (lunghezza%2 !=0)
+		costituita=0;
+		else{
+		while (costituita && i<(lunghezza/2) )
+		if ( sequenza[i]!=sequenza[lunghezza/2+i])
+			costituita=0;
+			else 
+				i++;
+		}
+		return costituita;
+}
+void verificadoppiastringa(){
+	char sequenza1[]="";
+	printf("%s valore atteso 1, valore calcolato %d\n",sequenza1, doppiastringa(sequenza1));
+	
+	char sequenza2[]="a";
+	printf("%s valore atteso 0, valore calcolato %d\n",sequenza2, doppiastringa(sequenza2));
+	
+	char sequenza3[]="ab";
+	printf("%s valore atteso 0, valore calcolato %d\n", sequenza3, doppiastringa(sequenza3));
+}

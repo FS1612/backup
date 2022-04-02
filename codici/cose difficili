@@ -1,0 +1,54 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+int main (){
+	float  a, b, c, x1, x2;
+	int d;
+
+	//* immissione numeri
+	printf("ciao utente, introduci i coefficienti.\n");
+	scanf("%f", &a);
+	scanf("%f", &b);
+	scanf("%f", &c);
+if ((b=c)==0)
+		{
+		printf("questa e' un equazione monomia i cui risultati sono pari a 0\n\n");
+		exit (0);
+		}
+else if (a == 0)
+		{
+printf("questa e' un equazione di primo grado \n\n");
+exit(0);
+}
+if ( a>0&&b==0&&d<0)
+ {
+x1 = 0;
+x2 = (-b)/a;
+printf("i risultati di questa equazione sono %f e %f\n\n", x1, x2);
+exit (0); }
+
+else if (a > 0)
+	 {
+	//* risoluzione 
+	x1 = (-b+d)/(2*a);
+	x2 = (-b-d)/(2*a);
+	d =  sqrtf((b*b ) - 4* (a* c));
+	printf("d equivale a : %d\n", d);
+	printf("-%f + %d\n\n", b, d);
+	 }
+
+else if (d > 0);
+  {
+	  {printf("le soluzioni dell'equazione di secondo grado sono %f e %f\n", x1, x2);
+
+exit (0);
+}
+if (d==0)
+{
+			printf("l'equazione ha 2 risultati coincidenti cioe' %f\n", x1);
+exit(0);}
+else if  (d<0);
+printf("l'equazione non ha risultati reali\n\n");
+exit(0);
+}
+}
